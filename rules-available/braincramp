@@ -1,0 +1,17 @@
+-
+  notes: D3 D4 D5
+  trigger: 腦
+  type: everytime
+  enabled: true
+
+-
+  notes: D#3 D#4 D#5
+  trigger: 抽
+  type: everytime
+  enabled: true
+
+-
+  notes: E3 E4 E5
+  trigger: 筋
+  type: everytime
+  enabled: true
