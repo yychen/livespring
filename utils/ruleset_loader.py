@@ -11,6 +11,7 @@ except ImportError:
 
 
 def ruleset_loader(folder):
+    print(f'Loading rule sets from {folder}...')
     if not os.path.isdir(folder):
         raise FileNotFoundError
     
@@ -21,14 +22,10 @@ def ruleset_loader(folder):
 
         rule_sets = []
 
-        with open(full_fn, 'r') as f:
-            rs = RuleSet(fn)
-            document = load(f, Loader=Loader)
-            
-            for entry in document:
-                rule = Rule(entry.get('notes'), entry.get('trigger'), entry.get('type'))
-                rs.add(rule)
-
+        try:
+            rs = RuleSet.load(full_fn)
             rule_sets.append(rs)
+        except ValueError as e:
+            print(f'{e}, skipping...')
 
     return rule_sets
