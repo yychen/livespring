@@ -35,6 +35,8 @@ class Live(object):
                 'channel': message.channel,
                 'note': message.note if hasattr(message, 'note') else None,
                 'velocity': message.velocity if hasattr(message, 'velocity') else None,
+                'control': message.control if hasattr(message, 'control') else None,
+                'value': message.value if hasattr(message, 'value') else None,
                 'time': message.time,
                 'note_display': str(Note(message.note)) if hasattr(message, 'note') else '',
             },
