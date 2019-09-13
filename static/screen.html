@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="/static/3rd_party/bootstrap-4.3.1-dist/css/bootstrap.min.css" />
 <style>
 html, body {
-    background: black;
+    background: #222;
     color: white;
 }
 
@@ -16,10 +16,14 @@ html, body {
     top: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(255, 255, 255, 0.1);
+    // background: rgba(255, 255, 255, 0.1);
 
     align-items: center;
     display: flex;
+}
+
+.notes-canvas.off {
+    display: none;
 }
 
 .notes-block {
@@ -70,11 +74,33 @@ html, body {
     top: 0%;
 }
 
+.indicators {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+
+    z-index: 100;
+    text-align: right;
+    padding: 0 5px;
+}
+
+.badge {
+    transition: opacity 100ms linear;
+}
+
+.badge-light {
+    background-color: #333;
+}
+
+.badge.off {
+    opacity: 0;
+}
+
 </style>
     </head>
 
     <body>
-        <h1>console</h1>
         <div class="notes-canvas">
             <div class="notes-block">
                 <span class="notes">
@@ -82,44 +108,79 @@ html, body {
             </div>
         </div>
 
+        <div class="indicators">
+            <span class="badge badge-light off" data-indicator="console">console</span>
+            <span class="badge badge-light off" data-indicator="ws">ws</span>
+        </div>
+
         <script src="/static/3rd_party/jquery-3.4.1.min.js"></script>
         <script>
 $(document).ready(function() {
-    var ws = new WebSocket("ws://" + window.location.host + "/screen/socket");
-    ws.onopen = function() {
-    };
+    var consoleMode = false;
 
-    ws.onmessage = function(e) {
-        if (e.data) {
-            var packet = JSON.parse(e.data);
-            if (packet.data.type === 'midi') {
-                if (packet.data.context.pedal) {
-                    $(".notes").addClass("pedal");
-                }
-                else {
-                    $(".notes").removeClass("pedal");
-                }
+    // Simple auto-reconnect
+    // https://stackoverflow.com/questions/22431751/websocket-how-to-automatically-reconnect-after-it-dies/23176223
+    var connect = function() {
+        var ws = new WebSocket("ws://" + window.location.host + "/screen/socket");
+        ws.onopen = function() {
+            $("[data-indicator='ws']").removeClass("off");
+        };
 
-                // $(".notes").text(packet.data.context.notes.join(", "));
-                console.log(packet.data.message);
-                if (packet.data.message.type === "note_on") {
-                    note_on(packet.data.message.note, packet.data.message.note_display, packet.data.message.velocity);
+        ws.onmessage = function(e) {
+            if (e.data) {
+                var packet = JSON.parse(e.data);
+                if (packet.data.type === 'midi') {
+                    if (packet.data.context.pedal) {
+                        $(".notes").addClass("pedal");
+                    }
+                    else {
+                        $(".notes").removeClass("pedal");
+                    }
+
+                    // $(".notes").text(packet.data.context.notes.join(", "));
+                    console.log(packet.data.message);
+                    if (packet.data.message.type === "note_on") {
+                        note_on(packet.data.message.note, packet.data.message.note_display, packet.data.message.velocity);
+                    }
+                    else if (packet.data.message.type === "note_off") {
+                        note_off(packet.data.message.note);
+                    }
+                    else if (packet.data.message.type === "control_change") {
+                        // Play button, turns the console on (visible)
+                        if (packet.data.message.control === 117 && packet.data.message.value === 0) {
+                            consoleMode = true;
+                            reflectConsoleMode();
+                        }
+                        // Stop button, turns the console off (invisible)
+                        else if (packet.data.message.control === 116 && packet.data.message.value === 0) {
+                            consoleMode = false;
+                            reflectConsoleMode();
+                        }
+                    }
                 }
-                else if (packet.data.message.type === "note_off") {
-                    note_off(packet.data.message.note);
+                else if (packet.data.type === 'signal') {
+                    console.log(packet.data.name);
+                    var $signalBlock = $("<div class='signal-block'>" + packet.data.name + "</div>");
+                    $(".notes-canvas").append($signalBlock);
+                    animate_signal($signalBlock);
                 }
             }
-            else if (packet.data.type === 'signal') {
-                console.log(packet.data.name);
-                var $signalBlock = $("<div class='signal-block'>" + packet.data.name + "</div>");
-                $(".notes-canvas").append($signalBlock);
-                animate_signal($signalBlock);
-            }
-        }
+        };
+
+        ws.onclose = function() {
+            $("[data-indicator='ws']").addClass("off");
+            setTimeout(function() {
+                connect();
+            }, 1000);
+        };
+
+        ws.onerror = function() {
+            ws.close();
+        };
     };
 
-    ws.onclose = function() {
-    };
+    connect();
+
 
     var animate_signal = function($el) {
         $el.on('transitionend', function() {
@@ -186,6 +247,21 @@ $(document).ready(function() {
             $("[data-note='" + note + "']").remove();
         }, 500);
     }
+
+
+    var reflectConsoleMode = function() {
+        if (consoleMode) {
+            $("[data-indicator='console']").removeClass("off");
+            $(".notes-canvas").removeClass("off");
+        }
+        else {
+            $("[data-indicator='console']").addClass("off");
+            $(".notes-canvas").addClass("off");
+        }
+    };
+
+    // Init to default value
+    reflectConsoleMode();
 });
         </script>
     </body>
