@@ -1,34 +1,41 @@
 -
-  # name: 腦
+  name: 腦
   notes: D3 D4 D5
   trigger: led-pattern-1
   type: everytime
   enabled: true
 
 -
-  # name: 抽
+  name: 抽
   notes: D#3 D#4 D#5
   trigger: led-pattern-2
   type: everytime
   enabled: true
 
 -
-  # name: 筋
+  name: 筋
   notes: E3 E4 E5
   trigger: led-pattern-3
   type: everytime
   enabled: true
 
 -
-  # name: 筋
-  notes: C8
+  name: Shine
+  notes: E2 E3
+  trigger: led-pattern-4
+  type: everytime
+  enabled: true
+
+-
+  name: LED Clear
+  notes: C7
   trigger: led-clear
   type: everytime
   enabled: true
 
 -
-  # name: 筋
-  notes: B7
+  name: LED Text
+  notes: B6
   trigger: led-text
   type: everytime
   enabled: true
