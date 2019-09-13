@@ -6,7 +6,17 @@ class Live(object):
     def __init__(self):
         self.context = Context()
         self.rule_set = None
-        self.screen_sockets = []
+        self.emitters = []
+
+    def add_emitter(self, emitter):
+        self.emitters.append(emitter)
+
+    def remove_emitter(self, emitter):
+        self.emitters.remove(emitter)
+
+    def emit(self, event):
+        for emitter in self.emitters:
+            emitter.emit(event)
 
     def midi_poll(self):
         if self.inport:
@@ -33,8 +43,7 @@ class Live(object):
                 'pedal': self.context.pedal,
             }
         }
-        for socket in self.screen_sockets:
-            socket.write_message(event)
+        self.emit(event)
 
         if isinstance(self.rule_set, RuleSet) and message.type.startswith('note'):
             triggered = self.rule_set.examine(self.context)
@@ -46,5 +55,4 @@ class Live(object):
                     'name': trigger
                 }
 
-                for socket in self.screen_sockets:
-                    socket.write_message(event)
+                self.emit(event)

@@ -5,6 +5,7 @@ import sys
 from core import live
 from core.rules import Rule, RuleSet
 from utils.ruleset_loader import ruleset_loader
+from emitters import WebSocketEmitter, OSCEmitter, SerialPortEmitter
 
 import mido
 import rtmidi
@@ -26,7 +27,7 @@ class ScreenHandler(RequestHandler):
 class ScreenSocketHandler(WebSocketHandler):
     def open(self):
         print(f'WebSocket opened... {self}')
-        live.screen_sockets.append(self)
+        ws_emitter.add_websocket(self)
 
     def on_message(self, message):
         # print 'got message: %s' % message
@@ -53,7 +54,7 @@ class ScreenSocketHandler(WebSocketHandler):
 
     def on_close(self):
         print(f'WebSocket closed... {self}')
-        live.screen_sockets.remove(self)
+        ws_emitter.remove_websocket(self)
 
 
 if __name__ == '__main__':
@@ -68,11 +69,28 @@ if __name__ == '__main__':
     print(rule_sets)
     live.rule_set = rule_sets[0]
 
+    # Setup MIDI In Port
     device = 'Oxygen 61'
     live.inport = mido.open_input(device)
-
     midi_loop = tornado.ioloop.PeriodicCallback(live.midi_poll, 25)
     midi_loop.start()
+
+
+    # Setup Websocket Emitter
+    ws_emitter = WebSocketEmitter()
+    live.add_emitter(ws_emitter)
+
+    # Setup OSC Emitter
+    osc_emitter = OSCEmitter()
+    live.add_emitter(osc_emitter)
+
+    # Setup SerialPort Emitter
+    sp_emitter = SerialPortEmitter()
+    live.add_emitter(sp_emitter)
+    sp_emitter.connect()
+    sp_connect_loop = tornado.ioloop.PeriodicCallback(sp_emitter.connect, 1000)
+    sp_connect_loop.start()
+
 
     handlers = [
         (r'/', IndexHandler),
