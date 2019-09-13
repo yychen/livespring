@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import re
 
 from core.note import Note

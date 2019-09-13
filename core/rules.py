@@ -86,11 +86,15 @@ class RuleSet(object):
         self.rules.append(rule)
 
     def examine(self, context):
+        triggered = []
         for rule in self.rules:
             match = rule.match(context)
 
             if match:
                 print(f'> {rule.trigger}')
+                triggered.append(rule.trigger)
+
+        return triggered
 
     def __repr__(self):
         return f'RuleSet({self.name})'
@@ -111,6 +115,6 @@ class RuleSet(object):
                 rule = Rule.loads(entry, name_prefix=rs.name, order=index)
                 rs.add(rule)
                 print(f'Rule {rule.name} loaded: {repr(rule)}')
-                print(rule.dumps())
+                # print(rule.dumps())
 
         return rs

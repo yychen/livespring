@@ -1,0 +1,192 @@
+<!doctype html>
+<html>
+    <head>
+        <title>SCREEN</title>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="/static/3rd_party/bootstrap-4.3.1-dist/css/bootstrap.min.css" />
+<style>
+html, body {
+    background: black;
+    color: white;
+}
+
+.notes-canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.1);
+
+    align-items: center;
+    display: flex;
+}
+
+.notes-block {
+    width: 100vw;
+    text-align: center;
+}
+
+.notes {
+    min-width: 80px;
+    font-size: 80px;
+    border-bottom: 8px solid rgba(255, 255, 255, 0);
+    transition: border-bottom-color 100ms linear;
+    display: inline-block;
+}
+
+.note {
+    display: inline-block;
+    padding: 0px 30px;
+    margin-right: 5px;
+    margin-bottom: 10px;
+    border-radius: 25px;
+    border: 3px solid #666;
+    transition: opacity 500ms linear;
+}
+
+.note.fading {
+    opacity: 0;
+}
+
+.notes.pedal {
+    border-bottom: 8px solid rgba(255, 255, 255, 0.4);
+}
+
+.signal-block {
+    font-size: 200px;
+    text-align: center;
+    position: absolute;
+    color: #666;
+    left: 50%;
+    top: 25%;
+    transform: translate(-50%, 0);
+
+    transition: opacity 300ms linear, top 2s linear;
+}
+
+.signal-block.fading {
+    opacity: 0;
+    top: 0%;
+}
+
+</style>
+    </head>
+
+    <body>
+        <h1>console</h1>
+        <div class="notes-canvas">
+            <div class="notes-block">
+                <span class="notes">
+                </span>
+            </div>
+        </div>
+
+        <script src="/static/3rd_party/jquery-3.4.1.min.js"></script>
+        <script>
+$(document).ready(function() {
+    var ws = new WebSocket("ws://" + window.location.host + "/screen/socket");
+    ws.onopen = function() {
+    };
+
+    ws.onmessage = function(e) {
+        if (e.data) {
+            var packet = JSON.parse(e.data);
+            if (packet.data.type === 'midi') {
+                if (packet.data.context.pedal) {
+                    $(".notes").addClass("pedal");
+                }
+                else {
+                    $(".notes").removeClass("pedal");
+                }
+
+                // $(".notes").text(packet.data.context.notes.join(", "));
+                console.log(packet.data.message);
+                if (packet.data.message.type === "note_on") {
+                    note_on(packet.data.message.note, packet.data.message.note_display, packet.data.message.velocity);
+                }
+                else if (packet.data.message.type === "note_off") {
+                    note_off(packet.data.message.note);
+                }
+            }
+            else if (packet.data.type === 'signal') {
+                console.log(packet.data.name);
+                var $signalBlock = $("<div class='signal-block'>" + packet.data.name + "</div>");
+                $(".notes-canvas").append($signalBlock);
+                animate_signal($signalBlock);
+            }
+        }
+    };
+
+    ws.onclose = function() {
+    };
+
+    var animate_signal = function($el) {
+        $el.on('transitionend', function() {
+            $el.remove();
+        });
+
+        setTimeout(function() {
+            $el.addClass("fading");
+        }, 20);
+    };
+
+    var note_timeouts = {};
+
+    var note_on = function(note, display, v) {
+        var $note = $("[data-note='" + note + "']");
+
+        if (note_timeouts[note] !== null && note_timeouts[note] !== undefined) {
+            clearTimeout(note_timeouts[note]);
+            note_timeouts[note] = null;
+        }
+
+        if ($note.length !== 0) {
+            $note.removeClass("fading");
+        }
+        else {
+            $note = $("<span class='note' data-note='" + note + "'>" + display + "</span>");
+            /*
+            $note.on('transitionend', function() {
+                if ($note.hasClass("fading")) {
+                    $note.remove();
+                }
+            });
+            */
+
+            var $insertBefore = null;
+            $(".notes .note").each(function(index, element) {
+                var current = parseInt($(element).attr("data-note"));
+                if (current < note) {
+                    return;
+                }
+
+                if (current > note && $insertBefore === null) {
+                    $insertBefore = $(element);
+                    return;
+                }
+            });
+
+            if ($insertBefore === null) {
+                $(".notes").append($note);
+            }
+            else {
+                $note.insertBefore($insertBefore);
+            }
+        }
+
+        var value = v * 2;
+        $note.css("color", "rgb(" + value + ", " + value + ", " + value + ")");
+        $note.css("border-color", "rgb(" + value + ", " + value + ", " + value + ")");
+    };
+
+    var note_off = function(note) {
+        $("[data-note='" + note + "']").addClass("fading");
+        note_timeouts[note] = setTimeout(function() {
+            $("[data-note='" + note + "']").remove();
+        }, 500);
+    }
+});
+        </script>
+    </body>
+</html>
