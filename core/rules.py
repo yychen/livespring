@@ -104,6 +104,7 @@ class RuleSet(object):
         rs = None
 
         # Loads the yaml file
+        print(f'Loading rule set from file {path} with {cls}')
         with open(path, 'r') as f:
             rs = cls(os.path.basename(path))
             document = yaml.load(f, Loader=Loader)

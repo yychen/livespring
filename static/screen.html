@@ -154,7 +154,7 @@ $(document).ready(function() {
     // Simple auto-reconnect
     // https://stackoverflow.com/questions/22431751/websocket-how-to-automatically-reconnect-after-it-dies/23176223
     var connect = function() {
-        var ws = new WebSocket("ws://" + window.location.host + "/screen/socket");
+        var ws = new WebSocket("ws://" + window.location.host + "/socket");
         ws.onopen = function() {
             $("[data-indicator='ws']").removeClass("off");
         };

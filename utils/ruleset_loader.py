@@ -4,7 +4,7 @@ from core.rules import Rule, RuleSet
 
 
 def ruleset_loader(folder):
-    print(f'Loading rule sets from {folder}...')
+    print(f'Loading rule sets from directory {folder}...')
     if not os.path.isdir(folder):
         raise FileNotFoundError
     
