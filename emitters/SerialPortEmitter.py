@@ -26,15 +26,15 @@ class SerialPortEmitter(Emitter):
         data = event.get('data')
         signal = None
         if data.get('type') == 'signal':
-            if data.get('name') == 'led-pattern-1':
+            if data.get('name').startswith('led-pattern-1'):
                 signal = b'\x07'
-            elif data.get('name') == 'led-pattern-2':
+            elif data.get('name').startswith('led-pattern-2'):
                 signal = b'\x01'
-            elif data.get('name') == 'led-pattern-3':
+            elif data.get('name').startswith('led-pattern-3'):
                 signal = b'\x08'
-            elif data.get('name') == 'led-pattern-4':
+            elif data.get('name').startswith('led-pattern-4'):
                 signal = b'\x04'
-            elif data.get('name') == 'led-clear':
+            elif data.get('name') == 'led-clear' or data.get('name') == 'reset':
                 signal = b'\x10'
             elif data.get('name') == 'led-text':
                 signal = b'\x02'
@@ -43,8 +43,9 @@ class SerialPortEmitter(Emitter):
                 self.last = data.get('name')
 
         if data.get('type') == 'midi' and not data.get('context').get('notes'):
-            if self.last == 'led-pattern-4' or self.last == 'bridge':
+            if self.last.endswith('!'):
                 signal = b'\x10'
+                self.last = ''
 
         if signal:
             for ser in self._targets:

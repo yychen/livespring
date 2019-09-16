@@ -19,9 +19,21 @@ class Live(object):
             emitter.emit(event)
 
     def midi_poll(self):
+        time_event = self.context.time_event()
+        if time_event:
+            event = {}
+            event['data'] = {
+                'type': 'timer',
+                'name': time_event
+            }
+            self.emit(event)
+
         if self.inport:
             for message in self.inport.iter_pending():
                 self.callback(message)
+
+    def reset(self):
+        self.context.reset()
 
     def callback(self, message):
         self.context.incoming_message(message)
@@ -58,3 +70,7 @@ class Live(object):
                 }
 
                 self.emit(event)
+
+                # Special signal
+                if trigger == 'reset':
+                    self.reset()

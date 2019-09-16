@@ -31,6 +31,37 @@ html, body {
     text-align: center;
 }
 
+.lyrics-1 {
+    width: 100vw;
+    text-align:center;
+    font-size: 80px;
+    position: absolute;
+    top: calc(50% + 8rem);
+    transform: translate(0, -50%);
+}
+
+.lyrics-1.word1 {
+    font-size: 100px;
+}
+
+.lyrics-1.word2 {
+    font-size: 200px;
+    font-weight: 800;
+}
+
+.lyrics-1.word3 {
+    font-size: 400px;
+    font-weight: 800;
+}
+
+.time-signal {
+    width: 100vw;
+    text-align: center;
+    font-size: 60px;
+    position: absolute;
+    top: 0;
+}
+
 .notes {
     min-width: 80px;
     font-size: 80px;
@@ -58,15 +89,15 @@ html, body {
 }
 
 .signal-block {
-    font-size: 200px;
+    font-size: 120px;
     text-align: center;
     position: absolute;
-    color: #666;
+    color: #999;
     left: 50%;
-    top: 25%;
+    top: 20%;
     transform: translate(-50%, 0);
 
-    transition: opacity 300ms linear, top 2s linear;
+    transition: opacity 500ms linear, top 2s linear;
 }
 
 .signal-block.fading {
@@ -106,6 +137,8 @@ html, body {
                 <span class="notes">
                 </span>
             </div>
+            <div class="lyrics-1"></div>
+            <div class="time-signal"></div>
         </div>
 
         <div class="indicators">
@@ -116,7 +149,7 @@ html, body {
         <script src="/static/3rd_party/jquery-3.4.1.min.js"></script>
         <script>
 $(document).ready(function() {
-    var consoleMode = false;
+    var consoleMode = true;
 
     // Simple auto-reconnect
     // https://stackoverflow.com/questions/22431751/websocket-how-to-automatically-reconnect-after-it-dies/23176223
@@ -163,6 +196,62 @@ $(document).ready(function() {
                     var $signalBlock = $("<div class='signal-block'>" + packet.data.name + "</div>");
                     $(".notes-canvas").append($signalBlock);
                     animate_signal($signalBlock);
+
+                    if (packet.data.name === "led-pattern-1") {
+                        $(".lyrics-1").text("腦").removeClass("word2").removeClass("word3").addClass("word1");
+                    }
+                    if (packet.data.name === "led-pattern-2") {
+                        $(".lyrics-1").text("抽").removeClass("word1").removeClass("word3").addClass("word2");
+                    }
+                    if (packet.data.name === "led-pattern-3") {
+                        $(".lyrics-1").text("筋").removeClass("word1").removeClass("word2").addClass("word3");
+                    }
+                    if (packet.data.name === "led-pattern-4") {
+                        $(".lyrics-1").text("").removeClass("word1").removeClass("word2").removeClass("word3");
+                    }
+
+                    if (packet.data.name === "reset") {
+                    $(".time-signal").text("");
+                        $(".lyrics-1").text("").removeClass("word1").removeClass("word2").removeClass("word3");
+                    }
+                }
+                else if (packet.data.type === 'timer') {
+                    console.log(packet.data.name);
+                    $(".time-signal").text(packet.data.name);
+
+                    if (packet.data.name === "!1.1") {
+                        $(".lyrics-1").text("什麼叫做 R & D").removeClass("word1").removeClass("word2").removeClass("word3");
+                    }
+                    else if (packet.data.name === "!2.1") {
+                        $(".lyrics-1").text("寫 code 寫到腦抽筋");
+                    }
+                    else if (packet.data.name === "!3.1") {
+                        $(".lyrics-1").text("什麼叫做小確幸");
+                    }
+                    else if (packet.data.name === "!4.1") {
+                        $(".lyrics-1").text("今天整天沒會議");
+                    }
+                    else if (packet.data.name === "!5.1") {
+                        $(".lyrics-1").text("今天整天沒會議");
+                    }
+                    else if (packet.data.name === "!6.1") {
+                        $(".lyrics-1").text("寫");
+                    }
+                    else if (packet.data.name === "!6.2") {
+                        $(".lyrics-1").text("code");
+                    }
+                    else if (packet.data.name === "!6.3") {
+                        $(".lyrics-1").text("寫");
+                    }
+                    else if (packet.data.name === "!6.4") {
+                        $(".lyrics-1").text("到");
+                    }
+                    else if (packet.data.name === "!6.5") {
+                        $(".lyrics-1").text("");
+                    }
+                    else if (packet.data.name[packet.data.name.length - 1] === "8" && packet.data.name !== "!6.8") {
+                        $(".lyrics-1").text("");
+                    }
                 }
             }
         };

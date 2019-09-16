@@ -14,7 +14,7 @@
 
 -
   name: 筋
-  notes: E3 E4 E5
+  notes: E3 E4 G5
   trigger: led-pattern-3
   type: everytime
   enabled: true
@@ -22,20 +22,76 @@
 -
   name: Shine
   notes: E2 E3
-  trigger: led-pattern-4
+  trigger: led-pattern-4!
   type: everytime
   enabled: true
 
 -
-  name: LED Clear
-  notes: C7
-  trigger: led-clear
+  name: Bar 1
+  notes: E4 B4 E5 G5
+  trigger: "|1"
   type: everytime
   enabled: true
+
+-
+  name: Bar 2
+  notes: D4 A4 D5 F#5
+  trigger: "|2"
+  type: everytime
+  enabled: true
+
+-
+  name: Bar 3
+  notes: B3 A4 D5 F#5
+  trigger: "|3"
+  type: everytime
+  enabled: true
+
+-
+  name: Bar 4
+  notes: E4 A4 D5 F#5
+  trigger: "|4"
+  type: everytime
+  enabled: true
+
+-
+  name: Bar 5
+  notes: B2 A4 D5 F#5
+  trigger: "|5"
+  type: everytime
+  enabled: true
+
+# -
+#   name: LED Clear
+#   notes: C7
+#   trigger: led-clear
+#   type: everytime
+#   enabled: true
 
 -
   name: LED Text
   notes: B6
   trigger: led-text
+  type: everytime
+  enabled: true
+
+-
+  name: Reset
+  notes: C7
+  trigger: reset
+  type: everytime
+  enabled: true
+
+-
+  name: Shine 1
+  notes: D#4 A#4
+  trigger: led-pattern-1!
+  type: everytime
+  enabled: true
+
+-
+  name: Shine 2
+  notes: A#2 A#3 D4 G4
+  trigger: led-pattern-4!
   type: everytime
   enabled: true

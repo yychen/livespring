@@ -105,7 +105,7 @@ class RuleSet(object):
 
         # Loads the yaml file
         with open(path, 'r') as f:
-            rs = RuleSet(os.path.basename(path))
+            rs = cls(os.path.basename(path))
             document = yaml.load(f, Loader=Loader)
 
             if type(document) is not list:

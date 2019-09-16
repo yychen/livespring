@@ -6,6 +6,7 @@ from core import live
 from core.rules import Rule, RuleSet
 from utils.ruleset_loader import ruleset_loader
 from emitters import WebSocketEmitter, OSCEmitter, SerialPortEmitter
+from rules import BrainCrampTimerRuleSet
 
 import mido
 import rtmidi
@@ -65,9 +66,12 @@ if __name__ == '__main__':
     print(devices)
     print(devices[0], type(devices[0]))
 
-    rule_sets = ruleset_loader(DEFAULT_RULES_DIR)
-    print(rule_sets)
-    live.rule_set = rule_sets[0]
+    # This is how you use the default loader
+    # rule_sets = ruleset_loader(DEFAULT_RULES_DIR)
+    # live.rule_set = rule_sets[0]
+
+    # But the BrainCramp needs timer
+    live.rule_set = BrainCrampTimerRuleSet.load(os.path.join(DEFAULT_RULES_DIR, 'braincramp'))
 
     # Setup MIDI In Port
     device = 'Oxygen 61'
