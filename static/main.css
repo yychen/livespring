@@ -1,0 +1,93 @@
+html, body {
+  background: #222;
+  color: white; }
+
+.notes-canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+  display: flex; }
+  .notes-canvas.off {
+    display: none; }
+
+.notes-block {
+  width: 100vw;
+  text-align: center; }
+
+.lyrics-1 {
+  width: 100vw;
+  text-align: center;
+  font-size: 80px;
+  position: absolute;
+  top: calc(50% + 8rem);
+  transform: translate(0, -50%); }
+  .lyrics-1.word1 {
+    font-size: 100px; }
+  .lyrics-1.word2 {
+    font-size: 200px;
+    font-weight: 800; }
+  .lyrics-1.word3 {
+    font-size: 400px;
+    font-weight: 800; }
+
+.time-signal {
+  width: 100vw;
+  text-align: center;
+  font-size: 60px;
+  position: absolute;
+  top: 0; }
+
+.notes {
+  min-width: 80px;
+  font-size: 80px;
+  border-bottom: 8px solid rgba(255, 255, 255, 0);
+  transition: border-bottom-color 100ms linear;
+  display: inline-block; }
+
+.note {
+  display: inline-block;
+  padding: 0px 30px;
+  margin-right: 5px;
+  margin-bottom: 10px;
+  border-radius: 25px;
+  border: 3px solid #666;
+  transition: opacity 500ms linear; }
+  .note.fading {
+    opacity: 0; }
+  .note.pedal {
+    border-bottom: 8px solid rgba(255, 255, 255, 0.4); }
+
+.signal-block {
+  font-size: 120px;
+  text-align: center;
+  position: absolute;
+  color: #999;
+  left: 50%;
+  top: 20%;
+  transform: translate(-50%, 0);
+  transition: opacity 500ms linear, top 2s linear; }
+  .signal-block.fading {
+    opacity: 0;
+    top: 0%; }
+
+.indicators {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 100;
+  text-align: right;
+  padding: 0 5px; }
+
+.badge {
+  transition: opacity 100ms linear; }
+  .badge.off {
+    opacity: 0; }
+
+.badge-light {
+  background-color: #333; }
+
+/*# sourceMappingURL=main.css.map */

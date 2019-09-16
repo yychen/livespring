@@ -81,17 +81,3 @@
   trigger: reset
   type: everytime
   enabled: true
-
--
-  name: Shine 1
-  notes: D#4 A#4
-  trigger: led-pattern-1!
-  type: everytime
-  enabled: true
-
--
-  name: Shine 2
-  notes: A#2 A#3 D4 G4
-  trigger: led-pattern-4!
-  type: everytime
-  enabled: true

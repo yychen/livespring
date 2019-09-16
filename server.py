@@ -2,6 +2,7 @@
 import os
 import sys
 import argparse
+import json
 
 from core import live
 from core.rules import Rule, RuleSet
@@ -21,37 +22,47 @@ class ScreenHandler(RequestHandler):
         self.render('static/screen.html')
 
 
+class StatusHandler(RequestHandler):
+    async def get(self):
+        self.write(json.dumps(live.status()))
+
+
 class ScreenSocketHandler(WebSocketHandler):
     def open(self):
         print(f'WebSocket opened from {self.request.remote_ip}')
         ws_emitter.add_websocket(self)
 
+        # Send current live status to the console once it is connected
+        self.send_status()
+
     def on_message(self, message):
-        # print 'got message: %s' % message
-        # if message == '%RESET':
-        #     midiserver.reset()
-        # elif message.startswith('%LISTEN'):
-        #     parts = message.split(' ')
+        print(f'WebSocket got message: {message}')
+        try:
+            packet = json.loads(message)
+            packet_type = packet.get('type', None)
 
-        #     if parts[1] == 'START':
-        #         if parts[2] == 'COUNTERCLOCK':
-        #             print "LISTEN TO COUNTERCLOCK"
-        #             midiserver.processor.set_ruleset(midiserver.rs1)
-        #         elif parts[2] == 'AIYO':
-        #             print "LISTEN TO AIYO"
-        #             midiserver.processor.set_ruleset(midiserver.rs2)
+            if packet_type == 'action':
+                action = packet.get('action', None)
 
-        #         midiserver.reset()
-        #         midiserver.listen = True
-        #     elif parts[1] == 'STOP':
-        #         print "LISTEN STOP"
-        #         midiserver.reset()
-        #         midiserver.listen = False
-        pass
+                if action == 'change_ruleset':
+                    name = packet.get('name', None)
+                    live.rules.set_current(name)
+
+        except json.decoder.JSONDecodeError:
+            pass
 
     def on_close(self):
         print(f'WebSocket closed from {self.request.remote_ip}')
         ws_emitter.remove_websocket(self)
+
+    def send_status(self):
+        event = {
+            'data': {
+                'type': 'status',
+                'status': live.status()
+            },
+        }
+        self.write_message(event)
 
 
 def list_devices(devices):
@@ -126,10 +137,12 @@ if __name__ == '__main__':
 
     # This is how you use the default loader
     # rule_sets = ruleset_loader(DEFAULT_RULES_DIR)
-    # live.rule_set = rule_sets[0]
+    # live.rules.load(rule_sets)
+    # live.rules.set_default()
 
     # But the BrainCramp needs timer
-    live.rule_set = BrainCrampTimerRuleSet.load(os.path.join(DEFAULT_RULES_DIR, 'braincramp'))
+    live.rules.add(BrainCrampTimerRuleSet.load(os.path.join(DEFAULT_RULES_DIR, 'braincramp')), current=True)
+    live.rules.add(RuleSet.load(os.path.join(DEFAULT_RULES_DIR, 'cakewalk')))
 
     print('')
 
@@ -161,6 +174,7 @@ if __name__ == '__main__':
     handlers = [
         (r'/', ScreenHandler),
         (r'/socket', ScreenSocketHandler),
+        (r'/status', StatusHandler),
         (r'/static/(.*)', StaticFileHandler, {'path': 'static'}),
     ]
 

@@ -1,0 +1,28 @@
+-
+  name: Cakewalk 1
+  notes: A#2 A#3 D4 G4
+  trigger: led-pattern-4!
+  type: everytime
+  enabled: true
+
+-
+  name: Cakewalk 2
+  notes: D#4 A#4
+  trigger: led-pattern-1!
+  type: everytime
+  enabled: true
+
+-
+  name: LED Text
+  notes: B6
+  trigger: led-text
+  type: everytime
+  enabled: true
+
+-
+  name: Reset
+  notes: C7
+  trigger: reset
+  type: everytime
+  enabled: true
+

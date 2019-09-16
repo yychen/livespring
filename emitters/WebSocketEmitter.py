@@ -16,3 +16,7 @@ class WebSocketEmitter(Emitter):
     def emit(self, event):
         for socket in self._sockets:
             socket.write_message(event)
+    
+    def send_status(self):
+        for socket in self._sockets:
+            socket.send_status()

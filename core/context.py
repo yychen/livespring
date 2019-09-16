@@ -46,6 +46,7 @@ class Context(object):
                 # Don't do anything if the note is not in there, just ignore it.
                 pass
         elif msg.type == 'control_change':
+            print(msg)
             if msg.control == 64:
                 self.pedal = msg.value == 127
 
