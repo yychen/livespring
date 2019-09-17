@@ -55,3 +55,14 @@ class SerialPortEmitter(Emitter):
                 except OSError:
                     self._targets.remove(ser)
 
+    def command(self, command, argument=16):
+        for ser in self._targets:
+            try:
+                ser.write(bytes(chr(argument), 'ascii'))
+                ser.flush()
+            except OSError:
+                self._targets.remove(ser)
+
+    def close(self):
+        for ser in self._targets:
+            ser.close()
