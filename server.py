@@ -19,7 +19,7 @@ from tornado.websocket import WebSocketHandler
 
 class ScreenHandler(RequestHandler):
     async def get(self):
-        self.render('static/screen.html')
+        self.render('static/screen.html', stage_mode=args.stage, ruleset_dir=DEFAULT_RULES_DIR)
 
 
 class StatusHandler(RequestHandler):
@@ -92,6 +92,10 @@ if __name__ == '__main__':
     BASE_DIR = os.path.dirname(os.path.realpath(__file__))
     DEFAULT_RULES_DIR = os.path.join(BASE_DIR, 'rules-enabled')
 
+    # Special stuff here, stage mode
+    # If there is a file ".stage", stage mode is auto on
+    stage_default = os.path.isfile(os.path.join(BASE_DIR, '.stage'))
+
     parser = argparse.ArgumentParser(description='Live Spring Server')
     parser.add_argument('-p', '--port', type=int, default=8001, help='The port that the server listens to, default to 8001.')
     parser.add_argument('-l', '--list', action='store_true', help='List the MIDI devices.')
@@ -100,6 +104,7 @@ if __name__ == '__main__':
                                                           'command or simply use the 0-based index '\
                                                           'returned by the list. Defaults to the '\
                                                           'first returned from the list.')
+    parser.add_argument('-s', '--stage', default=stage_default, action='store_true', help='Stage Mode (won\'t show the initial screen)')
 
     args = parser.parse_args()
 
@@ -150,8 +155,11 @@ if __name__ == '__main__':
     # live.rules.load(rule_sets)
     # live.rules.set_default()
 
-    # But the BrainCramp needs timer
+
+    # But the BrainCramp needs timer, it needs to be loaded by its own rule set class
     live.rules.add(BrainCrampTimerRuleSet.load(os.path.join(DEFAULT_RULES_DIR, 'braincramp')), current=True)
+
+    # Load other rule sets
     live.rules.add(RuleSet.load(os.path.join(DEFAULT_RULES_DIR, 'cakewalk')))
     live.rules.add(RuleSet.load(os.path.join(DEFAULT_RULES_DIR, 'demo1')))
 
@@ -200,6 +208,7 @@ if __name__ == '__main__':
     try:
         tornado.ioloop.IOLoop.current().start()
     except KeyboardInterrupt:
-        live.inport.close()
+        if live.inport:
+            live.inport.close()
         print('quitting...')
         sys.exit()

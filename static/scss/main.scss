@@ -3,6 +3,10 @@
 html, body {
     background: #222;
     color: white;
+
+    &.nocursor {
+        cursor: none;
+    }
 }
 
 a {
@@ -27,9 +31,14 @@ a {
 
     align-items: center;
     display: flex;
+    z-index: -1;
 
     &.off {
         display: none;
+    }
+
+    &.front {
+        z-index: 5;
     }
 }
 

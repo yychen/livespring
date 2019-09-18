@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html{% if stage_mode %} class="nocursor"{% end %}>
     <head>
         <title>LED 眼鏡背後的蟒蛇魂 - PyCon TW 2019</title>
         <meta charset="UTF-8" />
@@ -13,8 +13,43 @@
     <body>
         <div class="coins-overlay">
         </div>
+
+        <!-- These are the slides -->
         <div class="slides">
-            <div class="slide">
+            {% if not stage_mode %}
+            <div class="slide" data-console="enable" data-indicators="on" data-title="Livespring Demo">
+                <div class="center-upper">
+                    <h1>You are in demo console.</h1>
+                    <div>
+                        If you'd like to see the slides, press <code>RIGHT</code> or <code>DOWN</code> to start.<br />
+                        Feel free to navigate using the arrow keys.
+                    </div>
+
+                    <hr />
+
+                    <div class="mt-4">
+                        <div class="midi-connected">
+                            Livespring is connected to MIDI input <strong data-indicator="device"></strong>.<br />
+                            Hit some keys to try it out.<br />
+                            <br />
+                            <span class="ruleset-selected">
+                            Rule set <strong data-indicator="ruleset"></strong> loaded from<br />
+                            <code>{{ ruleset_dir }}/<span data-indicator="ruleset"></span></code>
+                            </span>
+                            <span class="ruleset-not-selected">
+                            No rule set selected.<br />&nbsp;
+                            </span>
+                        </div>
+                        <div class="midi-not-connected">
+                            There is no MIDI input connected to livespring.<br />
+                            You'll need at least one MIDI input to try it out.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% end %}
+
+            <div class="slide" data-console="disable" data-indicators="off">
                 <div class="center-upper">
                     <h1>LED 眼鏡背後的蟒蛇魂</h1>
                     <h1>The python spirit behind LED glasses</h1>
@@ -609,41 +644,40 @@
                     </div>
                 </div>
             </div>
-            <div class="slide" data-console="disable">
+            <div class="slide" data-change-ruleset="cakewalk" data-console="enable" data-indicators="on">
                 <div class="center-center">
                     <h1 class="display-4" style="font-weight: 500;">DEMO</h1>
+                    &nbsp;
                 </div>
-            </div>
-            <div class="slide" data-change-ruleset="cakewalk" data-console="enable" data-indicators="on">
             </div>
             <div class="slide" data-console="disable">
                 <div class="center-center">
                     <h1 class="display-4" style="font-weight: 500;">Future Work</h1>
-                    &nbsp;<br />&nbsp;
+                    &nbsp;
                 </div>
             </div>
             <div class="slide">
                 <div class="center-center">
                     <h2 style="font-weight: 500;">Wireless solution without Raspberry Pi?</h2>
-                    &nbsp;<br />&nbsp;
+                    &nbsp;
                 </div>
             </div>
             <div class="slide">
                 <div class="center-center">
                     <h2 style="font-weight: 500;">More outputs?</h2>
-                    &nbsp;<br />&nbsp;
+                    &nbsp;
                 </div>
             </div>
             <div class="slide">
                 <div class="center-center">
                     <h2 style="font-weight: 500;">Open Source?</h2>
-                    &nbsp;<br />&nbsp;
+                    &nbsp;
                 </div>
             </div>
             <div class="slide">
                 <div class="center-center">
                     <h2 style="font-weight: 500;">Open Source!</h2>
-                    <a href="https://github.com/yychen/livespring" target="_blank">https://github.com/yychen/livespring</a><br />(Don't be too harsh on me)
+                    <a href="https://github.com/yychen/livespring" target="_blank">https://github.com/yychen/livespring</a>
                 </div>
             </div>
             <div class="slide">
@@ -671,6 +705,9 @@
                 </div>
             </div>
         </div>
+
+
+        <!-- console -->
         <div class="notes-canvas">
             <div class="notes-block">
                 <span class="notes">
@@ -680,6 +717,8 @@
             <div class="time-signal"></div>
         </div>
 
+
+        <!-- the indicators -->
         <div class="indicators">
             <span class="badge badge-light" data-indicator="ruleset">(no ruleset)</span>
             <span class="badge badge-light" data-indicator="device">(no midi)</span>
@@ -691,6 +730,7 @@
         <script>
 $(document).ready(function() {
     var consoleMode = false;
+    var slideRecoverTimeout = null;
 
     // Simple auto-reconnect
     // https://stackoverflow.com/questions/22431751/websocket-how-to-automatically-reconnect-after-it-dies/23176223
@@ -740,6 +780,26 @@ $(document).ready(function() {
                         // Backward button. Make the ruleset to cakewalk
                         else if (packet.data.message.control === 114 && packet.data.message.value === 0) {
                             changeRuleSet("cakewalk");
+                        }
+                    }
+
+                    if (packet.data.context.notes.length > 0) {
+                        $($slides[current]).addClass("console-overlaying");
+                        $(".notes-canvas").addClass("front");
+                        if (slideRecoverTimeout !== null) {
+                            clearTimeout(slideRecoverTimeout);
+                            slideRecoverTimeout = null;
+                        }
+                    }
+                    else {
+                        if (slideRecoverTimeout === null) {
+                            slideRecoverTimeout = setTimeout(function() {
+                                $(".console-overlaying").removeClass("console-overlaying");
+                                $(".notes-canvas").removeClass("front");
+                                slideRecoverTimeout = null;
+                                $(".lyrics-1").text("").removeClass("word1").removeClass("word2").removeClass("word3");
+                                $(".time-signal").text("");
+                            }, 1500);
                         }
                     }
                 }
@@ -832,16 +892,24 @@ $(document).ready(function() {
                 else if (packet.data.type === 'status') {
                     if (packet.data.status.device === null) {
                         $("[data-indicator='device']").text("(no midi)");
+                        $(".midi-not-connected").removeClass("d-none");
+                        $(".midi-connected").addClass("d-none");
                     }
                     else {
                         $("[data-indicator='device']").text(packet.data.status.device);
+                        $(".midi-not-connected").addClass("d-none");
+                        $(".midi-connected").removeClass("d-none");
                     }
 
                     if (packet.data.status.ruleset === null) {
                         $("[data-indicator='ruleset']").text("(no ruleset)");
+                        $(".ruleset-not-selected").removeClass("d-none");
+                        $(".ruleset-selected").addClass("d-none");
                     }
                     else {
                         $("[data-indicator='ruleset']").text(packet.data.status.ruleset);
+                        $(".ruleset-not-selected").addClass("d-none");
+                        $(".ruleset-selected").removeClass("d-none");
                     }
                 }
             }
@@ -963,12 +1031,15 @@ $(document).ready(function() {
 
     $(window).on('keyup', function(e) {
         if (e.key === "1") {
-            changeRuleSet('braincramp');
+            changeRuleSet('demo1');
         }
         else if (e.key === "2") {
             changeRuleSet('cakewalk');
         }
         else if (e.key === "3") {
+            changeRuleSet('braincramp');
+        }
+        else if (e.key === "4") {
             changeRuleSet(null);
         }
     });
@@ -977,6 +1048,8 @@ $(document).ready(function() {
     // -----------------------------
     // Slide related stuff goes here
     // -----------------------------
+    var originalTitle = $("title").text();
+
     $(window).on('keyup', function(e) {
         if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
             previousSlide();
@@ -1010,52 +1083,65 @@ $(document).ready(function() {
             }
 
             current = index;
-            var $slide = $($slides[current]);
-            $slide.addClass("show");
+            $($slides[current]).addClass("show");
+            slideCallback();
+            // var $slide = $($slides[current]);
+            // $slide.addClass("show");
 
-            if ($slide.attr("data-change-ruleset")) {
-                changeRuleSet($slide.attr("data-change-ruleset"));
-            }
-
-            if ($slide.attr("data-coins-overlay") === "on") {
-                $(".coins-overlay").addClass("show");
-            }
-            else {
-                $(".coins-overlay").removeClass("show");
-            }
-
-            if ($slide.attr("data-indicators") === "on") {
-                $(".indicators").addClass("show");
-            }
-            else {
-                $(".indicators").removeClass("show");
-            }
-
-            if ($slide.attr("data-video") === "play") {
-                $slide.find("video")[0].play();
-            }
-
-            if ($slide.attr("data-console")) {
-                if ($slide.attr("data-console") === "enable") {
-                    consoleMode = true;
-                }
-                else if ($slide.attr("data-console") === "disable") {
-                    consoleMode = false;
-                }
-
-                reflectConsoleMode();
-            }
-
-            if ($slide.attr("data-trigger")) {
-                triggerEvent($slide.attr("data-trigger"));
-            }
-            
             if (current == 0) {
                 history.replaceState({page: current}, "", "/");
             }
             else {
                 history.replaceState({page: current}, "", "#" + (current + 1));
             }
+        }
+    };
+
+    var slideCallback = function() {
+        var $slide = $($slides[current]);
+
+        if ($slide.attr("data-change-ruleset")) {
+            changeRuleSet($slide.attr("data-change-ruleset"));
+        }
+
+        if ($slide.attr("data-coins-overlay") === "on") {
+            $(".coins-overlay").addClass("show");
+        }
+        else {
+            $(".coins-overlay").removeClass("show");
+        }
+
+        if ($slide.attr("data-indicators") === "on") {
+            $(".indicators").addClass("show");
+        }
+        else {
+            $(".indicators").removeClass("show");
+        }
+
+        if ($slide.attr("data-video") === "play") {
+            $slide.find("video")[0].play();
+        }
+
+        if ($slide.attr("data-console")) {
+            if ($slide.attr("data-console") === "enable") {
+                consoleMode = true;
+            }
+            else if ($slide.attr("data-console") === "disable") {
+                consoleMode = false;
+            }
+
+            reflectConsoleMode();
+        }
+
+        if ($slide.attr("data-trigger")) {
+            triggerEvent($slide.attr("data-trigger"));
+        }
+
+        if ($slide.attr("data-title")) {
+            $("title").text($slide.attr("data-title"));
+        }
+        else {
+            $("title").text(originalTitle);
         }
     };
 
@@ -1091,6 +1177,7 @@ $(document).ready(function() {
     }
     else {
         $(".slides").addClass("loaded");
+        slideCallback();
     }
 
     // preload coins, ugly, but... anyway

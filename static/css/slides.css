@@ -45,9 +45,13 @@
   .slides .bold {
     font-weight: 700; }
   .slides .slide {
-    display: none; }
+    display: none;
+    opacity: 1;
+    transition: opacity 200ms linear; }
     .slides .slide.show {
       display: block; }
+    .slides .slide.console-overlaying[data-console="enable"] {
+      opacity: 0.05; }
   .slides .top-left {
     position: absolute;
     left: 2%;
@@ -150,7 +154,7 @@
     height: 100%; }
   .slides .long-wires {
     position: absolute;
-    background-image: url("/static/images/long-wires.jpg");
+    background-image: url("/static/images/slides/long-wires.jpg");
     background-size: cover;
     width: 100%;
     height: 100%; }

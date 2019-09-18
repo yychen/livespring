@@ -68,9 +68,15 @@
 
     .slide {
         display: none;
+        opacity: 1;
+        transition: opacity 200ms linear;
 
         &.show {
             display: block;
+        }
+
+        &.console-overlaying[data-console="enable"] {
+            opacity: 0.05;
         }
     }
 
@@ -222,7 +228,7 @@
 
     .long-wires {
         position: absolute;
-        background-image: url('/static/images/long-wires.jpg');
+        background-image: url('/static/images/slides/long-wires.jpg');
         background-size: cover;
         width: 100%;
         height: 100%;

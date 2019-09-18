@@ -1,6 +1,8 @@
 html, body {
   background: #222;
   color: white; }
+  html.nocursor, body.nocursor {
+    cursor: none; }
 
 a {
   color: #EEE;
@@ -17,9 +19,12 @@ a {
   width: 100vw;
   height: 100vh;
   align-items: center;
-  display: flex; }
+  display: flex;
+  z-index: -1; }
   .notes-canvas.off {
     display: none; }
+  .notes-canvas.front {
+    z-index: 5; }
 
 .notes-block {
   width: 100vw;

@@ -106,3 +106,4 @@ venv.bak/
 *.swp
 
 .sass-cache
+.stage
