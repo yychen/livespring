@@ -40,7 +40,7 @@ class Rule(object):
         return self.name
 
     def match(self, context):
-        return self.notes.issubset(context.notes)
+        return self.notes.issubset(context.notes) and self.name not in context.triggered
 
     @classmethod
     def loads(cls, data, name_prefix=None, order=None):
@@ -93,6 +93,7 @@ class RuleSet(object):
             if match:
                 print(f'> {rule.trigger}')
                 triggered.append(rule.trigger)
+                context.register_trigger(rule.notes, rule.name)
 
         return triggered
 
