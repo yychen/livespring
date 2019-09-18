@@ -236,7 +236,7 @@
                     <img src="/static/images/slides/diagram2014.png" width="90%"/>
                 </div>
             </div>
-            <div class="slide" data-change-ruleset="demo1" data-coins-overlay="on" data-indicators="on">
+            <div class="slide" data-change-ruleset="demo1" data-coins-overlay="on" data-indicators="on" data-shortcut="q">
                 <div class="left-top">
                     <h2>
                     Get the notes played through MIDI signals
@@ -252,6 +252,38 @@
                     We can also dispatch each MIDI signals
                     </h2>
                     <div class="notes mt-3"></div>
+                </div>
+            </div>
+            <div class="slide" data-change-ruleset="demo2" data-indicators="on" data-shortcut="w">
+                <div class="left-top">
+                    <h2>
+                    Detect the notes on the beat.
+                    </h2>
+                    <p style="font-size: 2.1rem; font-weight: 300;" class="my-5">
+                    for example:
+                    <span class="enlarge-block">
+                        <code>
+                            <span style="color: white;"><span data-bar-demo2="|1">|<span class="timestamp-block">N/A</span></span></span>
+                            <span data-note-demo2="D#3">D#3<span class="shadow-block"></span></span>
+                            <span style="color: white;">- <span data-bar-demo2="|2">|<span class="timestamp-block">N/A</span></span> </span>
+                            <span data-note-demo2="F3">F3<span class="shadow-block"></span></span>
+                            <span style="color: white;">- <span data-bar-demo2="|3">|<span class="timestamp-block">N/A</span></span> </span>
+                            <span data-note-demo2="G3">G3<span class="shadow-block"></span></span>
+                            <span style="color: white;">- <span data-bar-demo2="|4">|<span class="timestamp-block">N/A</span></span> - - |</span></code>
+                    </span>
+                    </p>
+                    <div class="p1">
+                        <span style="font-weight: 700;">1 Bar</span> <span class="demo2-interval" style="font-weight: 300;">N/A </span><span style="font-size: 1.8rem;">sec</span>,
+                        <span style="font-weight: 700;">eighth</span> <span class="demo2-eighth" style="font-weight: 300;">N/A </span><span style="font-size: 1.8rem;">sec</span>
+                    </div>
+                    <h2 style="font-weight: 400; padding-top: 6rem;">
+                    Save the timestamp of these.
+                    </h2>
+                    <h2 class="mt-5" style="font-weight: 400;">
+                        Once we have two timestamps,<br/>we know the speed<br />and we can dispatch time related signals
+                    </h2>
+                    <div class="notes mt-3"></div>
+                    <div class="demo2-time-signal">&nbsp;</div>
                 </div>
             </div>
             <div class="slide">
@@ -644,7 +676,7 @@
                     </div>
                 </div>
             </div>
-            <div class="slide" data-change-ruleset="cakewalk" data-console="enable" data-indicators="on">
+            <div class="slide" data-change-ruleset="cakewalk" data-console="enable" data-indicators="on" data-shortcut="e">
                 <div class="center-center">
                     <h1 class="display-4" style="font-weight: 500;">DEMO</h1>
                     &nbsp;
@@ -744,6 +776,7 @@ $(document).ready(function() {
         ws.onmessage = function(e) {
             if (e.data) {
                 var packet = JSON.parse(e.data);
+                console.log(packet);
 
                 // Handling MIDI signals
                 if (packet.data.type === 'midi') {
@@ -799,6 +832,7 @@ $(document).ready(function() {
                                 slideRecoverTimeout = null;
                                 $(".lyrics-1").text("").removeClass("word1").removeClass("word2").removeClass("word3");
                                 $(".time-signal").text("");
+                                $(".demo2-time-signal").text("");
                             }, 1500);
                         }
                     }
@@ -825,7 +859,8 @@ $(document).ready(function() {
                     }
 
                     if (packet.data.name === "reset") {
-                    $(".time-signal").text("");
+                        $(".time-signal").text("");
+                        $(".demo2-time-signal").text("");
                         $(".lyrics-1").text("").removeClass("word1").removeClass("word2").removeClass("word3");
                     }
 
@@ -850,8 +885,8 @@ $(document).ready(function() {
                 
                 // Handling time related signals
                 else if (packet.data.type === 'timer') {
-                    console.log(packet.data.name);
                     $(".time-signal").text(packet.data.name);
+                    $(".demo2-time-signal").text(packet.data.name);
 
                     if (packet.data.name === "!1.1") {
                         $(".lyrics-1").text("什麼叫做 R & D").removeClass("word1").removeClass("word2").removeClass("word3");
@@ -910,6 +945,32 @@ $(document).ready(function() {
                         $("[data-indicator='ruleset']").text(packet.data.status.ruleset);
                         $(".ruleset-not-selected").addClass("d-none");
                         $(".ruleset-selected").removeClass("d-none");
+                    }
+                }
+
+                // Demo2
+                else if (packet.data.type === 'bars') {
+                    for (var key in packet.data.bars) {
+                        if (packet.data.bars[key]) {
+                            $("[data-bar-demo2='" + key + "'] .timestamp-block").text(packet.data.bars[key]);
+                        }
+                        else {
+                            $("[data-bar-demo2='" + key + "'] .timestamp-block").text("N/A");
+                        }
+                    }
+
+                    if (packet.data.interval) {
+                        $(".demo2-interval").text(packet.data.interval);
+                    }
+                    else {
+                        $(".demo2-interval").text("N/A ");
+                    }
+
+                    if (packet.data.eighth) {
+                        $(".demo2-eighth").text(packet.data.eighth);
+                    }
+                    else {
+                        $(".demo2-eighth").text("N/A ");
                     }
                 }
             }
@@ -982,6 +1043,20 @@ $(document).ready(function() {
         var value = v * 2;
         $note.css("color", "rgb(" + value + ", " + value + ", " + value + ")");
         $note.css("border-color", "rgb(" + value + ", " + value + ", " + value + ")");
+
+        // Make shadow for demo2
+        console.log(display);
+        var $noteShadowBlock = $("[data-note-demo2='" + display + "'] .shadow-block");
+        if ($noteShadowBlock) {
+            var $noteShadow = $("<span class='note-shadow'>" + display + "</span>");
+            $noteShadowBlock.append($noteShadow);
+            setTimeout(function() {
+                $noteShadow.addClass("move");
+                setTimeout(function() {
+                    $noteShadow.remove();
+                }, 1000);
+            }, 50);
+        }
     };
 
     var noteOff = function(note) {
@@ -1057,9 +1132,14 @@ $(document).ready(function() {
         else if (e.key === "ArrowDown" || e.key === "ArrowRight") {
             nextSlide();
         }
+        else if (e.key === "q" || e.key === "w" || e.key === "e") {
+            // Quick Jump to the first and second demo page
+            var page = $("[data-shortcut='" + e.key + "']")[0];
+            toSlide($.inArray(page, $slides));
+        }
 
         // vim like fast keys, go to the first slide
-        else if (e.key === "^" || e.key === "|") {
+        else if (e.key === "^" || e.key === "|" || e.key === "0") {
             toSlide(0);
         }
 

@@ -1,0 +1,27 @@
+-
+  name: Bar 1
+  notes: D#3
+  trigger: "|1"
+  type: everytime
+  enabled: true
+
+-
+  name: Bar 2
+  notes: F3
+  trigger: "|2"
+  type: everytime
+  enabled: true
+
+-
+  name: Bar 3
+  notes: G3
+  trigger: "|3"
+  type: everytime
+  enabled: true
+
+-
+  name: Reset
+  notes: C7
+  trigger: reset
+  type: everytime
+  enabled: true

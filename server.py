@@ -8,7 +8,7 @@ from core import live
 from core.rules import Rule, RuleSet
 from utils.ruleset_loader import ruleset_loader
 from emitters import WebSocketEmitter, OSCEmitter, SerialPortEmitter
-from rules import BrainCrampTimerRuleSet
+from rules import BrainCrampTimerRuleSet, Demo2TimerRuleSet
 
 import mido
 import rtmidi
@@ -162,6 +162,7 @@ if __name__ == '__main__':
     # Load other rule sets
     live.rules.add(RuleSet.load(os.path.join(DEFAULT_RULES_DIR, 'cakewalk')))
     live.rules.add(RuleSet.load(os.path.join(DEFAULT_RULES_DIR, 'demo1')))
+    live.rules.add(Demo2TimerRuleSet.load(os.path.join(DEFAULT_RULES_DIR, 'demo2')))
 
     print('')
 
@@ -176,6 +177,11 @@ if __name__ == '__main__':
     # Setup Websocket Emitter
     ws_emitter = WebSocketEmitter()
     live.add_emitter(ws_emitter)
+
+    # Super ugly. In order to do something special in demo2,
+    # this ruleset emits bar timestamps directly to the websocket
+    # So we need to inject the ws_emitter here
+    live.rules.sets['demo2'].attach_ws_emitter(ws_emitter)
 
     # Setup OSC Emitter
     osc_emitter = OSCEmitter()
