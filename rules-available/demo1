@@ -1,0 +1,6 @@
+-
+  name: coin
+  notes: G6 C7
+  trigger: coin
+  type: everytime
+  enabled: true

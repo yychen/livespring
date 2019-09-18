@@ -1,7 +1,21 @@
+// @import 'slides';
+
 html, body {
     background: #222;
     color: white;
 }
+
+a {
+    color: #EEE;
+    transition: color linear 200ms;
+    text-decoration: underline;
+    text-decoration-skip-ink: none;
+
+    &:hover {
+        color: #FFF;
+    }
+}
+
 
 .notes-canvas {
     position: absolute;
@@ -61,23 +75,23 @@ html, body {
     border-bottom: 8px solid rgba(255, 255, 255, 0);
     transition: border-bottom-color 100ms linear;
     display: inline-block;
-}
-
-.note {
-    display: inline-block;
-    padding: 0px 30px;
-    margin-right: 5px;
-    margin-bottom: 10px;
-    border-radius: 25px;
-    border: 3px solid #666;
-    transition: opacity 500ms linear;
-
-    &.fading {
-        opacity: 0;
-    }
 
     &.pedal {
         border-bottom: 8px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .note {
+        display: inline-block;
+        padding: 0px 30px;
+        margin-right: 5px;
+        margin-bottom: 10px;
+        border-radius: 25px;
+        border: 3px solid #666;
+        transition: opacity 500ms linear;
+
+        &.fading {
+            opacity: 0;
+        }
     }
 }
 
@@ -100,13 +114,19 @@ html, body {
 
 .indicators {
     position: fixed;
-    top: 0;
+    bottom: 4px;
     left: 0;
     width: 100vw;
 
     z-index: 100;
     text-align: right;
     padding: 0 5px;
+    opacity: 0;
+    // transition: opacity 200ms linear;
+
+    &.show {
+        opacity: 1;
+    }
 }
 
 .badge {
@@ -118,5 +138,6 @@ html, body {
 }
 
 .badge-light {
-    background-color: #333;
+    background-color: rgba(255, 255, 255, 0.3);
 }
+

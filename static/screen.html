@@ -1,15 +1,676 @@
 <!doctype html>
 <html>
     <head>
-        <title>SCREEN</title>
+        <title>LED 眼鏡背後的蟒蛇魂 - PyCon TW 2019</title>
         <meta charset="UTF-8" />
         <link rel="stylesheet" href="/static/3rd_party/bootstrap-4.3.1-dist/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="/static/main.css" />
+        <link rel="stylesheet" href="/static/css/main.css" />
+        <link rel="stylesheet" href="/static/css/slides.css" />
 <style>
 </style>
     </head>
 
     <body>
+        <div class="coins-overlay">
+        </div>
+        <div class="slides">
+            <div class="slide">
+                <div class="center-upper">
+                    <h1>LED 眼鏡背後的蟒蛇魂</h1>
+                    <h1>The python spirit behind LED glasses</h1>
+                </div>
+
+                <div class="center-lower">
+                    <div>陳炯廷 Tom Chen</div>
+                    <div>PyCon TW 2019</div>
+                    <div>ctchen@gmail.com</div>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <div class="django-girls-logo">
+                        <img src="/static/images/slides/djangogirls.png" />
+                    </div>
+                    <div class="p2 pt-5 bold" style="height: 136px;">
+                        One day, one of the attendee in my group ran into me in Starbucks.<br />
+                        It was the day before CFP ended.
+                    </div>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <div class="django-girls-logo">
+                        <img src="/static/images/slides/djangogirls.png" />
+                    </div>
+                    <div class="p2 pt-5 bold" style="height: 136px;">
+                        I encouraged her to keep it up, and mentioned PyCon TW.<br />
+                        And that motivated me to apply my second talk.
+                    </div>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <div class="django-girls-logo">
+                        <img src="/static/images/slides/djangogirls.png" />
+                    </div>
+                    <div class="p2 pt-5 bold" style="height: 136px;">
+                        I have never thought of this when I volunteered.
+                    </div>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <div class="django-girls-logo">
+                        <img src="/static/images/slides/djangogirls.png" />
+                    </div>
+                    <div class="p2 pt-5 bold" style="height: 136px;">
+                    </div>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="d-flex align-items-center intro-1">
+                    <div class="flex-grow-1 text-right">
+                        <img src="/static/images/slides/tom.png" class="pr-5 mr-5" />
+                    </div>
+                    <div class="p2 bold flex-grow-1">
+                        <p style="font-size: 1.6rem;">
+                        陳炯廷 Tom (yychen)
+                        </p>
+
+                        <p class="pt-3">
+                        2014-19 當若科技藝術 IF Plus<br />
+                        2012-14 House123<br />
+                        2008-12 趨勢科技 TrendMicro
+                        </p>
+
+                        <p class="pt-3" style="font-size: 1.6rem;">
+                        Full Stack<br />
+                        Multimedia Development<br />
+                        Operation (Linux / Network)
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="d-flex align-items-center intro-2">
+                    <div class="flex-grow-1 text-right">
+                        <img src="/static/images/slides/band.png" class="pr-5 mr-2" />
+                    </div>
+                    <div class="flex-grow-1">
+                        <h2>
+                        21樂團 &nbsp;&nbsp;21 Band<br />
+                        Keyboard (Piano)
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h2>Computer (Engineering) &amp; Music</h2>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="ref-link">
+                    <a href="https://www.youtube.com/watch?v=4Qvnv5wZIx8" target="_blank">https://www.youtube.com/watch?v=4Qvnv5wZIx8</a>
+                </div>
+                <div class="center-center">
+                    <h1 class="display-4" style="font-weight: 500;">2014</h1>
+                    <p class="p2 bold mt-4">
+                        PyCon APAC 2014 Lightning Talk<br />
+                        Python and Live Music Performance
+                    </p>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h1 style="font-size: 6rem;">Recap</h1>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h2>Computer (Engineering) + Music = ???</h2>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center" style="top: 80%;">
+                    <p class="p2 bold">Engineering something like this maybe a little bit too hardcore for me</p>
+                    <img src="/static/images/slides/live10.png" class="mt-3"/>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-left" style="left: 45%;">
+                    <p class="p1">
+                    Front End Technologies (javascript, CSS, HTML…)
+                    </p>
+                    <p class="p1">
+                    Back End Programming / Python
+                    </p>
+                    <p class="p1">
+                    Piano Playing
+                    </p>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h2 style="font-weight: normal; font-size: 3.8rem;">Maybe I can control the display while I'm playing</h2>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h2 style="font-weight: normal; font-size: 3.8rem;">Maybe I can <span class="under">control the display</span> while I'm <span class="under">playing</span></h2>
+                    <div class="float float-1 p2">the front end / back end part</div>
+                    <div class="float float-2 p2">the keyboard part</div>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="illustration">
+                    <img src="/static/images/slides/noun/projector-screen.png" class="img-screen" />
+                    <img src="/static/images/slides/noun/keyboard-with-stand.png" class="img-keyboard" />
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h1 class="bold">But actually</h1>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h1 class="bold">I can also <strong>ask someone to control</strong> it</h1>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h1>then it wouldn't be cool</h1>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h2 style="font-weight: 400;">
+                        It would be awesome when it is automatically synced<br />
+                        without any other person involved
+                    </h2>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h1 class="bold">But how?</h1>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <img src="/static/images/slides/diagram2014.png" width="90%"/>
+                </div>
+            </div>
+            <div class="slide" data-change-ruleset="demo1" data-coins-overlay="on" data-indicators="on">
+                <div class="left-top">
+                    <h2>
+                    Get the notes played through MIDI signals
+                    </h2>
+                    <h2 class="mt-5">
+                    See if it matches any pattern<br />
+                    Dispatch the events to frontend (tornado websocket)
+                    </h2>
+                    <p style="font-size: 2.1rem; font-weight: 300;">
+                    for example: <code>G6 C7 --&gt; coin</code>
+                    </p>
+                    <h2 class="mt-5">
+                    We can also dispatch each MIDI signals
+                    </h2>
+                    <div class="notes mt-3"></div>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="/static/images/slides/backtothe21.png" width="100%" class="back-to-the-21-img" />
+                <div class="top-left">
+                    <div class="p2" style="font-weight: 600;">
+                        Back to the 21
+                    </div>
+                    <div class="p1" style="font-weight: 300; margin-top: -15px;">
+                        2014 9/27 20:00 @ A House
+                    </div>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h1 class="display-4" style="font-weight: 500;">2017</h1>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h2>2017 October</h2>
+                    <div class="mt-5">
+                        <div class="p2">
+                            30th Anniversary, National Theater &amp; Concert Hall<br />
+                            Electric Indigo
+                        </div>
+                        <div class="p1" style="font-weight: 700;">
+                            兩廳院30週年 眾聲之所
+                        </div>
+                    </div>
+
+                    <div class="mt-5">
+                        <div class="p2">
+                            Lim Giong &times; DJ Point &times; Po-yu Wang
+                        </div>
+                        <div class="p1" style="font-weight: 700;">
+                            林強 &times; DJ Point &times; 王伯宇
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="electric-indigo-full">
+                    <div class="ref-link" style="top: auto; bottom: 15%;">
+                        <a href="https://www.facebook.com/ifplusco/videos/917577795065174" target="_blank">https://www.facebook.com/ifplusco/videos/917577795065174</a>
+                    </div>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="ref-link" style="top: 10%;">
+                    <a href="http://macetech.com/store/index.php?main_page=index&cPath=14" target="_blank">http://macetech.com/store/index.php?main_page=index&cPath=14</a>
+                </div>
+                <div class="center-center" style="top: 75%; opacity: 0.7;">
+                    <img src="/static/images/slides/macetech.jpg" class="mt-3"/>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center" style="top: 75%; opacity: 0.05;">
+                    <img src="/static/images/slides/macetech.jpg" class="mt-3"/>
+                </div>
+                <div class="center-center">
+                    <h2>The secret weapon for encore <span style="font-weight: 400;">—</span> <span style="font-weight: 300;">LED Glasses</span></h2>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h2>But, there was no encore.</h2>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h2>Nobody saw the cool glasses.</h2>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h2>so...</h2>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="d-flex align-items-center our-little-progression justify-content-start">
+                    <div class="mr-5 br-5">
+                        <div style="width: 60vw; opacity: 0.8;">
+                            <img src="/static/images/slides/ourlittleprogression.png" />
+                        </div>
+                    </div>
+                    <div class="ml-3">
+                        <div class="p2 bold">
+                            21點點<br />
+                            Our little progression...<br />
+                            <br />
+                            Backstage Cafe<br />
+                            Nov. 4, 2017
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide" data-trigger="reset">
+                <div class="center-center">
+                    <img src="/static/images/slides/led-glasses.png" />
+                </div>
+            </div>
+            <div class="slide" data-trigger="led-pattern-1">
+                <div class="center-center">
+                    <div class="led-glasses-container">
+                        <img src="/static/images/slides/led-glasses.png" />
+                        <div class="notation-block">
+                            <img src="/static/images/slides/bluearrow.png" />
+                            <div class="notation p2 bold">
+                                Arduino-compatible<br />
+                                source code available
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide" data-trigger="reset">
+                <div class="center-center">
+                    <div class="led-glasses-container">
+                        <img src="/static/images/slides/led-glasses.png" />
+                        <div class="notation-block">
+                            <img src="/static/images/slides/bluearrow.png" />
+                            <div class="notation p2 bold">
+                                Hack it!<br />
+                                Listens to serial port and change pattern
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h2 style="font-weight: 400;">Dig the 3-year-old code from last event<br />
+                        port it from 2.7 to 3<br />
+                        <br />
+                        I have very limited time to do whatever I need to do</h2>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h2>
+                        The night before the last rehearsal
+                    </h2>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h2>
+                        Hack the Arduino code to <strong>receive data from serial port</strong><br />
+                        <br />
+                        Change the signal triggering part from tornado websocket to <strong>pyserial</strong>
+                    </h2>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <img src="/static/images/slides/diagram2017.png" width="90%"/>
+                </div>
+            </div>
+            <!--
+            <div class="slide">
+                <div class="center-center">
+                    <h2 style="font-weight: 400; line-height: 1.5;">
+                        Originally, I wanted to design the LED patterns<br />
+                        But I have no time. I used the patterns included directly.
+                    </h2>
+                </div>
+            </div>
+            -->
+            <div class="slide">
+                <div class="left-top">
+                    <h2>
+                        Design the triggering chords / notes<br />
+                        <span style="font-weight: 300;">
+                        How would the musician play? 
+                        </span>
+                        <br />
+                        <br />
+                        Decide the triggered effects (LED patterns)<br />
+                        <span style="font-weight: 300;">
+                        See how it would fit best in the song<br />
+                        Sometimes it is cutting off the effect on the precise beat
+                        </span>
+                    </h2>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <img src="/static/images/slides/2017performance.jpg" style="width: 100vw; height: 100vh; object-fit: contain;" />
+                </div>
+                <div class="ref-link">
+                    <a href="https://www.youtube.com/watch?v=K-n_clM9z28" target="_blank">https://www.youtube.com/watch?v=K-n_clM9z28</a><br />
+                    or Youtube search <span class="badge badge-dark">腦抽筋 21樂團</span>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="d-flex align-items-center justify-content-between one-to-four">
+                    <div class="">
+                        <div style="width: 40vw; position: relative;">
+                            <img src="/static/images/slides/2017performance-2.jpg" class="pic" />
+                            <img src="/static/images/slides/led-glasses.png" class="medium-glasses"  style="top: 110%; left: 57%; transform: translate(-50%, 0);"/>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <img src="/static/images/slides/bluearrow2.png" />
+                    </div>
+                    <div class="">
+                        <div style="width: 40vw; position: relative;">
+                            <img src="/static/images/slides/2017performance-3.jpg" class="pic" />
+                            <img src="/static/images/slides/led-glasses.png" class="medium-glasses"  style="top: 110%; left: 23%; transform: translate(-50%, 0);"/>
+                            <img src="/static/images/slides/led-glasses.png" class="medium-glasses"  style="top: 110%; left: 44%; transform: translate(-50%, 0);"/>
+                            <img src="/static/images/slides/led-glasses.png" class="medium-glasses"  style="top: 110%; left: 62%; transform: translate(-50%, 0);"/>
+                            <img src="/static/images/slides/led-glasses.png" class="medium-glasses"  style="top: 110%; left: 80%; transform: translate(-50%, 0);"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <img src="/static/images/slides/setup.png" style="width: 90vw; height: 90vh; object-fit: contain;" />
+                </div>
+            </div>
+            <div class="slide" data-video="play">
+                <div class="center-center">
+                    <video style="width: 100vw; height: 100vh; object-fit: cover;" loop>
+                        <source src="/static/video/slides/clip.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h2 style="font-weight: 400;">
+                        the code is ugly,<br />
+                        but the system needs to be stable on stage
+                    </h2>
+                    <p class="p2 pt-5" style="font-weight: 300;">
+                    You might hardcode lots of stuff, or there are copy-pasted code everywhere<br />
+                    in these kind of projects, but...
+                    </p>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h2 style="font-weight: 400;">
+                        You can predict what might happen on stage,<br />
+                        make sure the system can survive in these situations
+                    </h2>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h2 style="font-weight: 400;">
+                        One set (pair of glasses) might be down<br />
+                        The system should be working no matter how many sets are alive
+                    </h2>
+                    <p class="p2 pt-5 pb-3" style="font-weight: 300;">
+                    Sometimes when you're coding in a hurry,<br />
+                    you assume that the environment is bound.
+                    </p>
+                    <code>ser[0], ser[1], ser[2], ser[3]</code>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h2 style="font-weight: 400;">
+                        It should also work no matter when I plug the LED glasses
+                    </h2>
+                    <p class="p2 pt-5 pb-3" style="font-weight: 300;">
+                    You might hardcode something like <code>/dev/cu.SLAB_USBtoUART</code>, <code>/dev/cu.SLAB_USBtoUART2</code>...<br />
+                    What happens if it is unplugged, and then re-plugged?
+                    </p>
+                    <p class="p2" style="font-weight: 300;">
+                    Will the device path be the same as before?
+                    </p>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h2 style="font-weight: 400;">
+                        If all these require a restart of the system?
+                    </h2>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h2 style="font-weight: 400;">
+                        Performing is already intense and stressful
+                        <br /><br />
+                        The system should be a plus rather than<br />
+                        making you more anxious
+                    </h2>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h1 class="display-4" style="font-weight: 500;">2018</h1>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h2 style="font-weight: 400;">
+                        Improvemen time!
+                    </h2>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h2 style="font-weight: 400;">
+                        The USB wires are too long.
+                    </h2>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="long-wires"></div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h2 style="font-weight: 400;">
+                        It is very difficult to deploy the system on stage<br />
+                        since we have VERY little time to setup between bands.
+                    </h2>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h2 style="font-weight: 400;">
+                        Is it possible it make it wireless?
+                    </h2>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <img src="/static/images/slides/diagram2018.png" style="width: 90vw; height: 90vh; object-fit: contain;" />
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <img src="/static/images/slides/semi-wireless.png" style="width: 90vw; height: 90vh; object-fit: contain;" />
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h2 style="font-weight: 400;">
+                        One afternoon to get all these done
+                    </h2>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="left-top" style="top: 30%; left: 15%;">
+                    <h2>
+                        Test with one set and prove it works
+                    </h2>
+                    <ol class="p2 mt-5">
+                        <li>Clean Raspbian Installation</li>
+                        <li>Connects to the desired wireless AP on every boot</li>
+                        <li>Fixed IP Address</li>
+                        <li>Python script (pyserial + pyosc) executed after boot (rc.local)</li>
+                        <li>Connects to the serial port whenever it is plugged in</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="left-top" style="top: 30%; left: 15%;">
+                    <h2>
+                        Clone it to 4 Raspberry Pis, and test all 4
+                    </h2>
+                    <div class="p2">
+                        (with corresponding fixed IPs)
+                    </div>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <img src="/static/images/slides/glasses-pi-set.jpg" style="width: 100vw; height: 100vh; object-fit: contain;" />
+                </div>
+
+                <div class="wireless-setup-container">
+                    <div class="notation-block notation-block-1">
+                        <img src="/static/images/slides/bluearrow2.png" />
+                        <div class="notation p2 bold">
+                            Raspberry Pi
+                        </div>
+                    </div>
+
+                    <div class="notation-block notation-block-2">
+                        <img src="/static/images/slides/bluearrow2.png" />
+                        <div class="notation p2 bold">
+                            Portable Charger
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide" data-console="disable">
+                <div class="center-center">
+                    <h1 class="display-4" style="font-weight: 500;">DEMO</h1>
+                </div>
+            </div>
+            <div class="slide" data-change-ruleset="cakewalk" data-console="enable" data-indicators="on">
+            </div>
+            <div class="slide" data-console="disable">
+                <div class="center-center">
+                    <h1 class="display-4" style="font-weight: 500;">Future Work</h1>
+                    &nbsp;<br />&nbsp;
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h2 style="font-weight: 500;">Wireless solution without Raspberry Pi?</h2>
+                    &nbsp;<br />&nbsp;
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h2 style="font-weight: 500;">More outputs?</h2>
+                    &nbsp;<br />&nbsp;
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h2 style="font-weight: 500;">Open Source?</h2>
+                    &nbsp;<br />&nbsp;
+                </div>
+            </div>
+            <div class="slide">
+                <div class="center-center">
+                    <h2 style="font-weight: 500;">Open Source!</h2>
+                    <a href="https://github.com/yychen/livespring" target="_blank">https://github.com/yychen/livespring</a><br />(Don't be too harsh on me)
+                </div>
+            </div>
+            <div class="slide">
+                <div class="d-flex align-items-center justify-content-start last-slide">
+                    <div class="">
+                        <div style="width: 60vw; height: 100vh; position: relative;">
+                            <img src="/static/images/slides/last.jpg" style="width: 100%; height: 100%; object-fit: cover;" />
+                        </div>
+                    </div>
+                    <div class="text-center ml-5 pl-5">
+                        <h1 class="display-4" style="font-weight: 500;">Questions?</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="d-flex align-items-center justify-content-start last-slide">
+                    <div class="">
+                        <div style="width: 60vw; height: 100vh; position: relative;">
+                            <img src="/static/images/slides/last.jpg" style="width: 100%; height: 100%; object-fit: cover;" />
+                        </div>
+                    </div>
+                    <div class="text-center ml-5 pl-5">
+                        <h1 class="display-4" style="font-weight: 500;">Thank you.</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="notes-canvas">
             <div class="notes-block">
                 <span class="notes">
@@ -29,7 +690,7 @@
         <script src="/static/3rd_party/jquery-3.4.1.min.js"></script>
         <script>
 $(document).ready(function() {
-    var consoleMode = true;
+    var consoleMode = false;
 
     // Simple auto-reconnect
     // https://stackoverflow.com/questions/22431751/websocket-how-to-automatically-reconnect-after-it-dies/23176223
@@ -43,6 +704,8 @@ $(document).ready(function() {
         ws.onmessage = function(e) {
             if (e.data) {
                 var packet = JSON.parse(e.data);
+
+                // Handling MIDI signals
                 if (packet.data.type === 'midi') {
                     if (packet.data.context.pedal) {
                         $(".notes").addClass("pedal");
@@ -80,6 +743,8 @@ $(document).ready(function() {
                         }
                     }
                 }
+
+                // Handling triggered signals
                 else if (packet.data.type === 'signal') {
                     console.log(packet.data.name);
                     var $signalBlock = $("<div class='signal-block'>" + packet.data.name + "</div>");
@@ -103,7 +768,27 @@ $(document).ready(function() {
                     $(".time-signal").text("");
                         $(".lyrics-1").text("").removeClass("word1").removeClass("word2").removeClass("word3");
                     }
+
+                    if (packet.data.name === "coin") {
+                        var $overlay = $(".coins-overlay");
+                        var randomPick = parseInt(Math.random() * 4);
+                        var $coinBlock = $("<div class='coin'></div>");
+                        var $coin = $(coins[randomPick].cloneNode());
+                        $coinBlock.append($coin);
+                        // $coinBlock.addClass("coin").css({top: (parseInt(Math.random() * 50) + 10) + "%", left: (parseInt(Math.random() * 80) + 10) + "%"});
+                        $coinBlock.addClass("coin").css({top: "40%", left: "80%"});
+                        // $coin.css({transform: "rotate(" + parseInt(Math.random() * 180) + "deg)"});
+                        $overlay.append($coinBlock);
+                        setTimeout(function() {
+                            $coin.addClass("flow");
+                            setTimeout(function() {
+                                $coinBlock.remove();
+                            }, 1000);
+                        }, 20);
+                    }
                 }
+                
+                // Handling time related signals
                 else if (packet.data.type === 'timer') {
                     console.log(packet.data.name);
                     $(".time-signal").text(packet.data.name);
@@ -142,8 +827,9 @@ $(document).ready(function() {
                         $(".lyrics-1").text("");
                     }
                 }
+
+                // Handling status changes
                 else if (packet.data.type === 'status') {
-                    console.log(packet.data);
                     if (packet.data.status.device === null) {
                         $("[data-indicator='device']").text("(no midi)");
                     }
@@ -200,27 +886,29 @@ $(document).ready(function() {
             $note.removeClass("fading");
         }
         else {
-            $note = $("<span class='note' data-note='" + note + "'>" + display + "</span>");
+            $(".notes").each(function(_, notesEl) {
+                $note = $("<span class='note' data-note='" + note + "'>" + display + "</span>");
 
-            var $insertBefore = null;
-            $(".notes .note").each(function(index, element) {
-                var current = parseInt($(element).attr("data-note"));
-                if (current < note) {
-                    return;
+                var $insertBefore = null;
+                $(notesEl).find(".note").each(function(index, element) {
+                    var current = parseInt($(element).attr("data-note"));
+                    if (current < note) {
+                        return;
+                    }
+
+                    if (current > note && $insertBefore === null) {
+                        $insertBefore = $(element);
+                        return;
+                    }
+                });
+
+                if ($insertBefore === null) {
+                    $(notesEl).append($note);
                 }
-
-                if (current > note && $insertBefore === null) {
-                    $insertBefore = $(element);
-                    return;
+                else {
+                    $note.insertBefore($insertBefore);
                 }
             });
-
-            if ($insertBefore === null) {
-                $(".notes").append($note);
-            }
-            else {
-                $note.insertBefore($insertBefore);
-            }
         }
 
         var value = v * 2;
@@ -266,6 +954,13 @@ $(document).ready(function() {
         });
     };
 
+    var triggerEvent = function(name) {
+        sendAction({
+            action: 'trigger',
+            name: name
+        });
+    };
+
     $(window).on('keyup', function(e) {
         if (e.key === "1") {
             changeRuleSet('braincramp');
@@ -276,10 +971,136 @@ $(document).ready(function() {
         else if (e.key === "3") {
             changeRuleSet(null);
         }
-        else if (e.key === "4") {
-            ws.send('4asdjklf');
+    });
+
+
+    // -----------------------------
+    // Slide related stuff goes here
+    // -----------------------------
+    $(window).on('keyup', function(e) {
+        if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+            previousSlide();
+        }
+        else if (e.key === "ArrowDown" || e.key === "ArrowRight") {
+            nextSlide();
+        }
+
+        // vim like fast keys, go to the first slide
+        else if (e.key === "^" || e.key === "|") {
+            toSlide(0);
+        }
+
+        // vim like fast keys, go to the last slide
+        else if (e.key === "$") {
+            toSlide($slides.length - 1);
         }
     });
+
+    var $slides = $(".slides .slide");
+    var current = 0;
+    $($slides[current]).addClass("show");
+
+    var toSlide = function(index) {
+        if (index >= 0 && index < $slides.length) {
+            var $originalSlide = $($slides[current]);
+            $originalSlide.removeClass("show");
+
+            if ($originalSlide.find("video").length > 0) {
+                $originalSlide.find("video")[0].pause();
+            }
+
+            current = index;
+            var $slide = $($slides[current]);
+            $slide.addClass("show");
+
+            if ($slide.attr("data-change-ruleset")) {
+                changeRuleSet($slide.attr("data-change-ruleset"));
+            }
+
+            if ($slide.attr("data-coins-overlay") === "on") {
+                $(".coins-overlay").addClass("show");
+            }
+            else {
+                $(".coins-overlay").removeClass("show");
+            }
+
+            if ($slide.attr("data-indicators") === "on") {
+                $(".indicators").addClass("show");
+            }
+            else {
+                $(".indicators").removeClass("show");
+            }
+
+            if ($slide.attr("data-video") === "play") {
+                $slide.find("video")[0].play();
+            }
+
+            if ($slide.attr("data-console")) {
+                if ($slide.attr("data-console") === "enable") {
+                    consoleMode = true;
+                }
+                else if ($slide.attr("data-console") === "disable") {
+                    consoleMode = false;
+                }
+
+                reflectConsoleMode();
+            }
+
+            if ($slide.attr("data-trigger")) {
+                triggerEvent($slide.attr("data-trigger"));
+            }
+            
+            if (current == 0) {
+                history.replaceState({page: current}, "", "/");
+            }
+            else {
+                history.replaceState({page: current}, "", "#" + (current + 1));
+            }
+        }
+    };
+
+    var nextSlide = function() {
+        if (current + 1 >= $slides.length) {
+            return;
+        }
+
+        toSlide(current + 1);
+    };
+
+    var previousSlide = function() {
+        if (current - 1 < 0) {
+            return;
+        }
+
+        toSlide(current - 1);
+    };
+
+    if (location.hash.length > 0) {
+        var page = parseInt(location.hash.substr(1)) - 1;
+        if (page >= 0 && page < $slides.length) {
+            // Super ugly, to prevent ws not connected yet problem
+            setTimeout(function() {
+                toSlide(page);
+                $(".slides").addClass("loaded");
+            }, 25);
+        }
+        else {
+            history.replaceState({page: current}, "", "/");
+            $(".slides").addClass("loaded");
+        }
+    }
+    else {
+        $(".slides").addClass("loaded");
+    }
+
+    // preload coins, ugly, but... anyway
+    var coins = [];
+    for (var i = 0; i < 4; i++) {
+        var coin = new Image();
+        coin.src = "/static/images/slides/noun/coin" + (i+1) + ".png";
+
+        coins.push(coin);
+    }
 });
         </script>
     </body>

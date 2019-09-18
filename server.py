@@ -48,6 +48,16 @@ class ScreenSocketHandler(WebSocketHandler):
                     name = packet.get('name', None)
                     live.rules.set_current(name)
 
+                if action == 'trigger':
+                    name = packet.get('name', None)
+                    event = {}
+                    event['data'] = {
+                        'type': 'signal',
+                        'name': name
+                    }
+
+                    live.emit(event)
+
         except json.decoder.JSONDecodeError:
             pass
 
@@ -143,6 +153,7 @@ if __name__ == '__main__':
     # But the BrainCramp needs timer
     live.rules.add(BrainCrampTimerRuleSet.load(os.path.join(DEFAULT_RULES_DIR, 'braincramp')), current=True)
     live.rules.add(RuleSet.load(os.path.join(DEFAULT_RULES_DIR, 'cakewalk')))
+    live.rules.add(RuleSet.load(os.path.join(DEFAULT_RULES_DIR, 'demo1')))
 
     print('')
 
