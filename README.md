@@ -37,7 +37,7 @@ Now, we're good to go!
 (livespring)$ python server.py
 ```
 
-You should visit the console at [http://localhost:8001](http://localhost:8001).
+You should be able to visit the console at [http://localhost:8001](http://localhost:8001).
 
 
 ## Commands & Parameters
@@ -111,7 +111,7 @@ The outermost level is a list, which consists of all rules. Each rule consists o
 At this point of time, only `notes` and `trigger` is taken into consideration. The other elements are not yet implemented. The idea is easy: if the current keys on the keyboard contains the `notes` defined by the rule, it will trigger a signal.
 
 ## Emitters
-Emitters are the output of the triggered signals. As you can see in the [emitters](emitters/) folder, there are currently three different emitters: [WebSocketEmitter](emitters/WebSocketEmitter.py), [SerialPortEmitter](SerialPortEmitter.py) and [OSCEmitter](emitters/OSCEmitter.py).
+Emitters are the output of the triggered signals. As you can see in the [emitters](emitters/) folder, there are currently three different emitters: [WebSocketEmitter](emitters/WebSocketEmitter.py), [SerialPortEmitter](emitters/SerialPortEmitter.py) and [OSCEmitter](emitters/OSCEmitter.py).
 
 You can modify these or write your own. Basically what WebSocketEmitter does is to send whatever triggered to the client. While SerialPortEmitter and OSCEmitter only send selected triggers.
 
