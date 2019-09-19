@@ -120,6 +120,14 @@ live is the core object that handles the main procedure. It has a polling functi
 
 Take a look at [server.py](server.py) and [core/live.py](core/live.py) to see how live object can be used.
 
+## Styles
+We're using [scss](https://sass-lang.com/) here. So if you want to change the style, go to the static folder and use the scss watch command.
+
+```
+$ cd static
+$ scss --watch scss:css
+```
+
 ## Advanced Usage
 ### Time based signals
 You can create rules for the notes of the first beat in a bar, so after the second bar, you can calculate how many seconds a bar takes (the current speed). And then, you can trigger time based signals on every eighth note.
