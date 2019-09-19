@@ -173,13 +173,13 @@
     display: inline-block; }
     .slides .led-glasses-container .notation-block {
       position: absolute;
-      bottom: 12%;
-      right: -10%; }
+      bottom: 55%;
+      right: 8%; }
       .slides .led-glasses-container .notation-block .notation {
         width: 18vw;
         position: absolute;
-        top: 90%;
-        left: 110%;
+        bottom: 180%;
+        left: 0%;
         text-align: left; }
   .slides .one-to-four {
     position: absolute;

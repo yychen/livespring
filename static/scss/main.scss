@@ -40,6 +40,27 @@ a {
     &.front {
         z-index: 5;
     }
+
+    &.inverse {
+        background: white;
+        color: black;
+
+        .lyrics-1 {
+            top: 50%;
+        }
+
+        .notes-block {
+            display: none;
+        }
+
+        .time-signal {
+            display: none;
+        }
+
+        .signal-block {
+            display: none;
+        }
+    }
 }
 
 .notes-block {
@@ -55,17 +76,22 @@ a {
     top: calc(50% + 8rem);
     transform: translate(0, -50%);
 
+    &.word0 {
+        font-size: 160px;
+        top: 50%;
+    }
+
     &.word1 {
-        font-size: 100px;
+        font-size: 200px;
     }
 
     &.word2 {
-        font-size: 200px;
+        font-size: 400px;
         font-weight: 800;
     }
 
     &.word3 {
-        font-size: 400px;
+        font-size: 600px;
         font-weight: 800;
     }
 }

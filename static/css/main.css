@@ -25,6 +25,17 @@ a {
     display: none; }
   .notes-canvas.front {
     z-index: 5; }
+  .notes-canvas.inverse {
+    background: white;
+    color: black; }
+    .notes-canvas.inverse .lyrics-1 {
+      top: 50%; }
+    .notes-canvas.inverse .notes-block {
+      display: none; }
+    .notes-canvas.inverse .time-signal {
+      display: none; }
+    .notes-canvas.inverse .signal-block {
+      display: none; }
 
 .notes-block {
   width: 100vw;
@@ -37,13 +48,16 @@ a {
   position: absolute;
   top: calc(50% + 8rem);
   transform: translate(0, -50%); }
+  .lyrics-1.word0 {
+    font-size: 160px;
+    top: 50%; }
   .lyrics-1.word1 {
-    font-size: 100px; }
+    font-size: 200px; }
   .lyrics-1.word2 {
-    font-size: 200px;
+    font-size: 400px;
     font-weight: 800; }
   .lyrics-1.word3 {
-    font-size: 400px;
+    font-size: 600px;
     font-weight: 800; }
 
 .time-signal {

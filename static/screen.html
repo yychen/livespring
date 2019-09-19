@@ -194,7 +194,7 @@
                 <div class="center-center">
                     <h2 style="font-weight: normal; font-size: 3.8rem;">Maybe I can <span class="under">control the display</span> while I'm <span class="under">playing</span></h2>
                     <div class="float float-1 p2">the front end / back end part</div>
-                    <div class="float float-2 p2">the keyboard part</div>
+                    <div class="float float-2 p2">the music playing part</div>
                 </div>
             </div>
             <div class="slide">
@@ -254,7 +254,7 @@
                     <div class="notes mt-3"></div>
                 </div>
             </div>
-            <div class="slide" data-change-ruleset="demo2" data-indicators="on" data-shortcut="w">
+            <div class="slide slide-demo-2" data-change-ruleset="demo2" data-indicators="on" data-shortcut="w">
                 <div class="left-top">
                     <h2>
                     Detect the notes on the beat.
@@ -391,7 +391,7 @@
                     <div class="led-glasses-container">
                         <img src="/static/images/slides/led-glasses.png" />
                         <div class="notation-block">
-                            <img src="/static/images/slides/bluearrow.png" />
+                            <img src="/static/images/slides/blue-arrow.png" style="transform: rotate(90deg);"/>
                             <div class="notation p2 bold">
                                 Arduino-compatible<br />
                                 source code available
@@ -405,7 +405,7 @@
                     <div class="led-glasses-container">
                         <img src="/static/images/slides/led-glasses.png" />
                         <div class="notation-block">
-                            <img src="/static/images/slides/bluearrow.png" />
+                            <img src="/static/images/slides/blue-arrow.png" style="transform: rotate(90deg);"/>
                             <div class="notation p2 bold">
                                 Hack it!<br />
                                 Listens to serial port and change pattern
@@ -474,10 +474,6 @@
                 <div class="center-center">
                     <img src="/static/images/slides/2017performance.jpg" style="width: 100vw; height: 100vh; object-fit: contain;" />
                 </div>
-                <div class="ref-link">
-                    <a href="https://www.youtube.com/watch?v=K-n_clM9z28" target="_blank">https://www.youtube.com/watch?v=K-n_clM9z28</a><br />
-                    or Youtube search <span class="badge badge-dark">腦抽筋 21樂團</span>
-                </div>
             </div>
             <div class="slide">
                 <div class="d-flex align-items-center justify-content-between one-to-four">
@@ -488,7 +484,7 @@
                         </div>
                     </div>
                     <div class="text-center">
-                        <img src="/static/images/slides/bluearrow2.png" />
+                        <img src="/static/images/slides/blue-arrow.png" />
                     </div>
                     <div class="">
                         <div style="width: 40vw; position: relative;">
@@ -662,21 +658,21 @@
 
                 <div class="wireless-setup-container">
                     <div class="notation-block notation-block-1">
-                        <img src="/static/images/slides/bluearrow2.png" />
+                        <img src="/static/images/slides/blue-arrow.png" />
                         <div class="notation p2 bold">
                             Raspberry Pi
                         </div>
                     </div>
 
                     <div class="notation-block notation-block-2">
-                        <img src="/static/images/slides/bluearrow2.png" />
+                        <img src="/static/images/slides/blue-arrow.png" />
                         <div class="notation p2 bold">
                             Portable Charger
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="slide" data-change-ruleset="cakewalk" data-console="enable" data-indicators="on" data-shortcut="e">
+            <div class="slide slide-large-demo" data-change-ruleset="cakewalk" data-console="enable" data-indicators="on" data-shortcut="e">
                 <div class="center-center">
                     <h1 class="display-4" style="font-weight: 500;">DEMO</h1>
                     &nbsp;
@@ -733,6 +729,10 @@
                     </div>
                     <div class="text-center ml-5 pl-5">
                         <h1 class="display-4" style="font-weight: 500;">Thank you.</h1>
+                        <div style="position: relative; top: 100px;">
+                            <a href="https://www.youtube.com/watch?v=K-n_clM9z28" target="_blank">https://www.youtube.com/watch?v=K-n_clM9z28</a><br />
+                            or Youtube search <span class="badge badge-dark">腦抽筋 21樂團</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -823,16 +823,29 @@ $(document).ready(function() {
                             clearTimeout(slideRecoverTimeout);
                             slideRecoverTimeout = null;
                         }
+
+                        if (largeDemoState === 'init') {
+                            largeDemoState = 'demo';
+                        }
                     }
                     else {
                         if (slideRecoverTimeout === null) {
                             slideRecoverTimeout = setTimeout(function() {
-                                $(".console-overlaying").removeClass("console-overlaying");
-                                $(".notes-canvas").removeClass("front");
-                                slideRecoverTimeout = null;
-                                $(".lyrics-1").text("").removeClass("word1").removeClass("word2").removeClass("word3");
-                                $(".time-signal").text("");
-                                $(".demo2-time-signal").text("");
+                                if (largeDemoState !== 'demo') {
+                                    $(".console-overlaying").removeClass("console-overlaying");
+                                    $(".notes-canvas").removeClass("front");
+                                    slideRecoverTimeout = null;
+                                    $(".lyrics-1").text("").removeClass("word1").removeClass("word2").removeClass("word3");
+                                    $(".time-signal").text("");
+                                    $(".demo2-time-signal").text("");
+
+                                    if ($($slides[current]).hasClass("slide-large-demo")) {
+                                        largeDemoState = 'init';
+                                    }
+                                    else {
+                                        largeDemoState = '';
+                                    }
+                                }
                             }, 1500);
                         }
                     }
@@ -846,16 +859,24 @@ $(document).ready(function() {
                     animateSignal($signalBlock);
 
                     if (packet.data.name === "led-pattern-1") {
+                        $(".notes-canvas").addClass("inverse");
                         $(".lyrics-1").text("腦").removeClass("word2").removeClass("word3").addClass("word1");
                     }
                     if (packet.data.name === "led-pattern-2") {
+                        $(".notes-canvas").addClass("inverse");
                         $(".lyrics-1").text("抽").removeClass("word1").removeClass("word3").addClass("word2");
                     }
                     if (packet.data.name === "led-pattern-3") {
+                        $(".notes-canvas").addClass("inverse");
                         $(".lyrics-1").text("筋").removeClass("word1").removeClass("word2").addClass("word3");
                     }
-                    if (packet.data.name === "led-pattern-4") {
+                    if (packet.data.name === "led-pattern-4!") {
+                        $(".notes-canvas").removeClass("inverse");
                         $(".lyrics-1").text("").removeClass("word1").removeClass("word2").removeClass("word3");
+
+                        if ($("[data-indicator='ruleset']").text() === "braincramp") {
+                            largeDemoState = '';
+                        }
                     }
 
                     if (packet.data.name === "reset") {
@@ -904,19 +925,19 @@ $(document).ready(function() {
                         $(".lyrics-1").text("今天整天沒會議");
                     }
                     else if (packet.data.name === "!6.1") {
-                        $(".lyrics-1").text("寫");
+                        $(".lyrics-1").text("寫").addClass("word0");
                     }
                     else if (packet.data.name === "!6.2") {
-                        $(".lyrics-1").text("code");
+                        $(".lyrics-1").text("code").addClass("word0");
                     }
                     else if (packet.data.name === "!6.3") {
-                        $(".lyrics-1").text("寫");
+                        $(".lyrics-1").text("寫").addClass("word0");
                     }
                     else if (packet.data.name === "!6.4") {
-                        $(".lyrics-1").text("到");
+                        $(".lyrics-1").text("到").addClass("word0");
                     }
                     else if (packet.data.name === "!6.5") {
-                        $(".lyrics-1").text("");
+                        $(".lyrics-1").text("").removeClass("word0");
                     }
                     else if (packet.data.name[packet.data.name.length - 1] === "8" && packet.data.name !== "!6.8") {
                         $(".lyrics-1").text("");
@@ -1045,7 +1066,6 @@ $(document).ready(function() {
         $note.css("border-color", "rgb(" + value + ", " + value + ", " + value + ")");
 
         // Make shadow for demo2
-        console.log(display);
         var $noteShadowBlock = $("[data-note-demo2='" + display + "'] .shadow-block");
         if ($noteShadowBlock) {
             var $noteShadow = $("<span class='note-shadow'>" + display + "</span>");
@@ -1124,6 +1144,7 @@ $(document).ready(function() {
     // Slide related stuff goes here
     // -----------------------------
     var originalTitle = $("title").text();
+    var largeDemoState = '';
 
     $(window).on('keyup', function(e) {
         if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
@@ -1165,8 +1186,6 @@ $(document).ready(function() {
             current = index;
             $($slides[current]).addClass("show");
             slideCallback();
-            // var $slide = $($slides[current]);
-            // $slide.addClass("show");
 
             if (current == 0) {
                 history.replaceState({page: current}, "", "/");
@@ -1222,6 +1241,19 @@ $(document).ready(function() {
         }
         else {
             $("title").text(originalTitle);
+        }
+
+        if ($slide.hasClass("slide-large-demo")) {
+            largeDemoState = 'init';
+        }
+        else {
+            largeDemoState = '';
+        }
+
+        if ($slide.hasClass("slide-demo-2")) {
+            $("[data-bar-demo2] .timestamp-block").text("N/A");
+            $(".demo2-interval").text("N/A ");
+            $(".demo2-eighth").text("N/A ");
         }
     };
 
